@@ -1,18 +1,13 @@
-﻿using BreederStation.Orm.Dao;
-using BreederStationDAOLayer.Database;
+﻿using BreederStationDAOLayer.Database;
 using BreederStationDataLayer;
 using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDataLayer.Orm.Dto;
-using BreederStationDataLayer.Orm.OracleGateway.Dao;
 using BreederStationDataLayer.Orm.SelectCriteria;
+using DAIS_KNE0035.Orm.SelectCriteria;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace testBreederStationDataLayer
 {
@@ -25,11 +20,17 @@ namespace testBreederStationDataLayer
             //register.Register(typeof(DatabaseService), DatabaseService.getInstance());
             register.Register(typeof(PersonGateway), new OraclePersonGateway(DatabaseService.getInstance()));
             register.Register(typeof(AddressGateway), new OracleAddressGateway(DatabaseService.getInstance()));
+            register.Register(typeof(CageGateway), new OracleCageGateway(DatabaseService.getInstance()));
+            register.Register(typeof(AnimalGateway), new OracleAnimalGateway(DatabaseService.getInstance()));
+            register.Register(typeof(AnimalGroupGateway), new OracleAnimalGroupGateway(DatabaseService.getInstance()));
+            register.Register(typeof(CompanyGateway), new OracleCompanyGateway(DatabaseService.getInstance()));
 
-
-
-            tesPersonTable();
+            //tesPersonTable();
             //testAdressTable();
+            //testCageTable();
+            //testAnimalTable();
+            //testAnimalGroupTable();
+            testCompanyTable();
 
             Console.WriteLine(Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine);
             /*testRoleTable();
@@ -55,7 +56,7 @@ namespace testBreederStationDataLayer
 
             Cleaner cleaner = new Cleaner
             {
-                Login = "test61",
+                Login = "test62",
                 Password = "sa",
                 FirstName = "Marek_testp",
                 LastName = "Kneys_",
@@ -80,7 +81,7 @@ namespace testBreederStationDataLayer
             }
             Console.WriteLine("-------------------------------------------------------------------------");
 
-            Person selected_person = personTable.Select("test61");
+            Person selected_person = personTable.Select("test62");
             Console.WriteLine("Vypis zamestnance s loginem mkneys");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine(selected_person);
@@ -163,5 +164,237 @@ namespace testBreederStationDataLayer
             Console.WriteLine("End of addressTable test");
             Console.WriteLine("---------------------------------------------------------------------------------------");
         }
+
+        private static void testCageTable()
+        {
+            CageGateway cageTable = RepositoryRegister.getInstance().Get<CageGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("CageTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            Cage cage = new Cage
+            {
+                LengthM = 500,
+                WidthM = 1000
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            cageTable.Insert(cage);
+
+            IList<Cage> cages = cageTable.Select();
+            Console.WriteLine("Vypis kleci");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Cage item in cages)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (cages.Count > 1)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                cages[cages.Count - 1].LengthM = 2000;
+                cages[cages.Count - 1].WidthM = 2000;
+                cageTable.Update(cages[cages.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                cageTable.Delete(cages[cages.Count - 1].Id);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of CageTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testAnimalTable()
+        {
+            AnimalGateway animalTable = RepositoryRegister.getInstance().Get<AnimalGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            Animal animal = new Animal
+            {
+                Name = "test_animal",
+                Active = true,
+                Race = "test race",
+                Sex = SexEnum.samec,
+                BirthDate = new DateTime(2013, 06, 30),
+                AnimalGroup = new AnimalGroup { Id = 35 },
+                Cage = new Cage { Id = 41 },
+                Food = new Food { Id = 21 }
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            animalTable.Insert(animal);
+
+            IList<Animal> animals = animalTable.Select(new AnimalCriteria());
+            Console.WriteLine("Vypis zvirat");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Animal item in animals)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Animal selected_animal = animalTable.Select(animals[animals.Count - 1].Id);
+            Console.WriteLine("Vypis zvirete s id " + animals[animals.Count - 1].Id);
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine(selected_animal);
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (animals.Count > 1)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                animals[animals.Count - 1].Name = "test_update";
+                animalTable.Update(animals[animals.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                animalTable.Delete(animals[animals.Count - 1].Id);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testAnimalGroupTable()
+        {
+            AnimalGroupGateway animalGroupTable = RepositoryRegister.getInstance().Get<AnimalGroupGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("animalGroupTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            AnimalGroup animalGroup = new AnimalGroup
+            {
+                Description = "test_grupy"
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            animalGroupTable.Insert(animalGroup);
+
+            IList<AnimalGroup> groups = animalGroupTable.Select(false);
+            Console.WriteLine("Vypis grup jednoduchy");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (AnimalGroup item in groups)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            groups = animalGroupTable.Select(true);
+            Console.WriteLine("Vypis grup slozity");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (AnimalGroup item in groups)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            AnimalGroup animalGroupSelected = animalGroupTable.Select(35);
+            Console.WriteLine("Vypis grupy s id " + 35);
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine(animalGroupSelected);
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (groups.Count > 1)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                groups[groups.Count - 1].Description = "test_update";
+                animalGroupTable.Update(groups[groups.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                animalGroupTable.Delete(groups[groups.Count - 1].Id);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testCompanyTable()
+        {
+            CompanyGateway companyTable = RepositoryRegister.getInstance().Get<CompanyGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("Company test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            Company company = new Company
+            {
+                Address = new Address { Id = 11 },
+                Email = "mkneys@vsb.cz",
+                Phone = "454 545 122 454",
+                Trademark = "test_trademark_2"
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            companyTable.Insert(company);
+
+            IList<Company> companies = companyTable.Select(new CompanyCriteria());
+            Console.WriteLine("Vypis companies");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Company item in companies)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Company companySelected = companyTable.Select("Nutram");
+            Console.WriteLine("Vypis grupy s trademarkem nutram");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine(companySelected);
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (companies.Count > 1)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                companies[companies.Count - 1].Email = "mkneys@vsb.test";
+                companyTable.Update(companies[companies.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                companyTable.Delete(companies[companies.Count - 1].Trademark);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
     }
 }

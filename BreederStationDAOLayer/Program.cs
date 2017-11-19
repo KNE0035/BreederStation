@@ -2,11 +2,8 @@
 using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDataLayer.Orm.Dto;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
 
 namespace BreederStationDataLayer
 {
@@ -14,10 +11,11 @@ namespace BreederStationDataLayer
     {
         static void Main(string[] args)
         {
-            RepositoryRegister register = RepositoryRegister.getInstance();
+            /*RepositoryRegister register = RepositoryRegister.getInstance();
             DatabaseService.init(new OracleConnection());
             //register.Register(typeof(DatabaseService), DatabaseService.getInstance());
             register.Register(typeof(OraclePersonGateway), new OraclePersonGateway(DatabaseService.getInstance()));
+
 
 
 
@@ -205,7 +203,7 @@ namespace BreederStationDataLayer
             Console.WriteLine("---------------------------------------------------------------------------------------");
         }
 
-        private static void testAnimalTable()
+        /*private static void testAnimalTable()
         {
             AnimalTable animalTable = new AnimalTable();
 

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using BreederStationDataLayer.Orm.Dto;
 using BreederStationDataLayer.Database;
-using BreederStation.Orm.Dao;
 using System.Data.Common;
 
-namespace BreederStationDataLayer.Orm.OracleGateway.Dao
+namespace BreederStationDataLayer.Orm.Dao
 {
     public class OracleAddressGateway : AddressGateway
     {
-        private DatabaseService db;
 
         public static string TABLE_NAME = "Address";
 
@@ -46,22 +44,22 @@ namespace BreederStationDataLayer.Orm.OracleGateway.Dao
             return addresses;
         }
 
-        protected override string getInsertString()
+        protected override string GetInsertSql()
         {
             return SQL_INSERT;
         }
 
-        protected override string getDeleteString()
+        protected override string GetDeleteSql()
         {
             return SQL_DELETE_ID;
         }
 
-        protected override string getUpadteString()
+        protected override string GetUpdateSql()
         {
             return SQL_UPDATE;
         }
 
-        protected override string getSelectString()
+        protected override string GetSelectSql()
         {
             return SQL_SELECT;
         }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BreederStation.Orm.Dao
+namespace BreederStationDataLayer.Orm.Dao
 {
     public abstract class AddressGateway
     {
@@ -21,7 +21,7 @@ namespace BreederStation.Orm.Dao
         public int Delete(int addressId)
         {
             db.Connect();
-            DbCommand command = db.CreateCommand(getDeleteString());
+            DbCommand command = db.CreateCommand(GetDeleteSql());
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
@@ -30,7 +30,7 @@ namespace BreederStation.Orm.Dao
         public int Update(Address address)
         {
             db.Connect();
-            DbCommand command = db.CreateCommand(getUpadteString());
+            DbCommand command = db.CreateCommand(GetUpdateSql());
             PrepareCommand(command, address);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -40,7 +40,7 @@ namespace BreederStation.Orm.Dao
         {
             db.Connect();
 
-            DbCommand command = db.CreateCommand(getSelectString());
+            DbCommand command = db.CreateCommand(GetSelectSql());
             DbDataReader reader = db.Select(command);
 
             IList<Address> addresses = Read(reader);
@@ -51,7 +51,7 @@ namespace BreederStation.Orm.Dao
         public int Insert(Address address)
         {
             db.Connect();
-            DbCommand command = db.CreateCommand(getInsertString());
+            DbCommand command = db.CreateCommand(GetInsertSql());
             PrepareCommand(command, address);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
@@ -60,10 +60,10 @@ namespace BreederStation.Orm.Dao
 
         protected abstract void PrepareCommand(DbCommand command, Address address);
 
-        protected abstract string getInsertString();
-        protected abstract string getDeleteString();
-        protected abstract string getUpadteString();
-        protected abstract string getSelectString();
+        protected abstract string GetInsertSql();
+        protected abstract string GetDeleteSql();
+        protected abstract string GetUpdateSql();
+        protected abstract string GetSelectSql();
         protected abstract IList<Address> Read(DbDataReader reader);
     }
 }
