@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreederStationDAOLayer", "BreederStationDAOLayer\BreederStationDAOLayer.csproj", "{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreederStationDataLayer", "BreederStationDAOLayer\BreederStationDataLayer.csproj", "{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testBreederStationDataLayer", "testBreederStationDataLayer\testBreederStationDataLayer.csproj", "{C04162A8-E87A-4374-A2A8-D512B6C8A91F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
