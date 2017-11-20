@@ -14,7 +14,13 @@ namespace BreederStationDataLayer.Orm.Dto
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
-            ret.Append("Znacka: " + Trademark + Environment.NewLine);
+
+            ret.Append("Id_firmy: " + Id + Environment.NewLine);
+
+            if (Trademark != null)
+            {
+                ret.Append("Znacka: " + Trademark + Environment.NewLine);
+            }
 
             if (Phone != null) {
                 ret.Append("telefon firmy: " + Phone + Environment.NewLine);

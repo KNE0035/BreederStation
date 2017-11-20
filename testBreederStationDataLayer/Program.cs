@@ -24,13 +24,22 @@ namespace testBreederStationDataLayer
             register.Register(typeof(AnimalGateway), new OracleAnimalGateway(DatabaseService.getInstance()));
             register.Register(typeof(AnimalGroupGateway), new OracleAnimalGroupGateway(DatabaseService.getInstance()));
             register.Register(typeof(CompanyGateway), new OracleCompanyGateway(DatabaseService.getInstance()));
+            register.Register(typeof(EventGateway), new OracleEventGateway(DatabaseService.getInstance()));
+            register.Register(typeof(FoodOrderPendingGateway), new OracleFoodOrderPendingGateway(DatabaseService.getInstance()));
+            register.Register(typeof(FoodGateway), new OracleFoodGateway(DatabaseService.getInstance()));
+            register.Register(typeof(RoleGateway), new OracleRoleGateway(DatabaseService.getInstance()));
 
             //tesPersonTable();
             //testAdressTable();
             //testCageTable();
             //testAnimalTable();
             //testAnimalGroupTable();
-            testCompanyTable();
+            //testCompanyTable();
+            //testEventTable();
+            //testFoodOrderPending();
+            //testFoodTable();
+            testRoleTable();
+            Console.Read();
 
             Console.WriteLine(Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine);
             /*testRoleTable();
@@ -56,7 +65,7 @@ namespace testBreederStationDataLayer
 
             Cleaner cleaner = new Cleaner
             {
-                Login = "test62",
+                Login = "test6455",
                 Password = "sa",
                 FirstName = "Marek_testp",
                 LastName = "Kneys_",
@@ -81,7 +90,7 @@ namespace testBreederStationDataLayer
             }
             Console.WriteLine("-------------------------------------------------------------------------");
 
-            Person selected_person = personTable.Select("test62");
+            Person selected_person = personTable.Select("test6455");
             Console.WriteLine("Vypis zamestnance s loginem mkneys");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine(selected_person);
@@ -393,6 +402,234 @@ namespace testBreederStationDataLayer
             Console.WriteLine();
             Console.WriteLine("---------------------------------------------------------------------------------------");
             Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testEventTable()
+        {
+            EventGateway eventTable = RepositoryRegister.getInstance().Get<EventGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("eventTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            IList<int> animalIds = new List<int>();
+            animalIds.Add(7);
+            animalIds.Add(9);
+            animalIds.Add(10);
+
+            Event animalEvent = new Event
+            {
+                Description = "test_event",
+                Breeder = new Breeder { Id = 5 },
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now,
+                AnimalIds = animalIds
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            eventTable.Insert(animalEvent);
+
+            IList<Event> events = eventTable.Select();
+            Console.WriteLine("Vypis eventu");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Event item in events)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Event eventSelected = eventTable.Select(events[events.Count - 1].Id);
+            Console.WriteLine("Vypis eventu s id " + events[events.Count - 1].Id);
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine(eventSelected);
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (events.Count > 0)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                events[events.Count - 1].Description = "test_update";
+                eventTable.Update(events[events.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                eventTable.Delete(events[events.Count - 1].Id);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testFoodOrderPending()
+        {
+            FoodOrderPendingGateway foodOrderPendingTable = RepositoryRegister.getInstance().Get<FoodOrderPendingGateway>(); ;
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("FoodOrderPendingTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            IList<FoodOrderPending> foodOrderPendingsResolved = foodOrderPendingTable.Select(true);
+            Console.WriteLine("Vypis cekajicich objednavek na jidlo ktere byly vyrizeny");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (FoodOrderPending item in foodOrderPendingsResolved)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Console.WriteLine();
+
+            IList<FoodOrderPending> foodOrderPendingsNotResolved = foodOrderPendingTable.Select(false);
+            Console.WriteLine("Vypis cekajicich objednavek na jidlo ktere nebyly vyrizeny");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (FoodOrderPending item in foodOrderPendingsNotResolved)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (foodOrderPendingsNotResolved.Count > 0)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+
+                foodOrderPendingsNotResolved[0].ResolvedDate = DateTime.Now;
+                foodOrderPendingTable.Update(foodOrderPendingsNotResolved[0]);
+            }
+
+
+            FoodOrderPending fop = new FoodOrderPending
+            {
+                Food = new Food { Id = 21 },
+                Priority = FoodOrderPriorityEnum.medium,
+                ResolvedDate = DateTime.Now,
+                StartDate = DateTime.Now
+            };
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing creating...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            foodOrderPendingTable.Insert(fop);
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of FoodOrderPendingTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testFoodTable()
+        {
+            FoodGateway foodTable = RepositoryRegister.getInstance().Get<FoodGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("foodTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            Food food = new Food
+            {
+                Carbohydrates = 50,
+                Company = new Company { Id = 1},
+                Fat = 20,
+                Proteins = 30,
+                Name = "test_insert_food",
+                Price = 456.45
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foodTable.Insert(food);
+
+            IList<Food> foods = foodTable.Select(new FoodCriteria());
+            Console.WriteLine("Vypis jidla");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Food item in foods)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Food foodSelected = foodTable.Select(foods[foods.Count - 1].Id);
+            Console.WriteLine("Vypis eventu s id " + foods[foods.Count - 1].Id);
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine(foodSelected);
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            if (foods.Count > 0)
+            {
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing updating...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                foods[foods.Count - 1].Name = "test_update_food";
+                foodTable.Update(foods[foods.Count - 1]);
+
+                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("testing deleting...");
+                Console.WriteLine("-------------------------------------------------------------------------");
+                foodTable.Delete(foods[foods.Count - 1].Id);
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of AnimalTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+        }
+
+        private static void testRoleTable()
+        {
+            RoleGateway roleTable = RepositoryRegister.getInstance().Get<RoleGateway>();
+
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("RoleTable test");
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine();
+
+            Role role = new Role
+            {
+                Type = RoleEnum.ROLE_INSERT_DELETE_TEST,
+                Description = "testing role"
+            };
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing inserting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            roleTable.Insert(role);
+
+            IList<Role> roles = roleTable.Select();
+            Console.WriteLine("Vypis roli");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            foreach (Role item in roles)
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------");
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing updating...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            roles[roles.Count - 1].Description = "test role update";
+            roleTable.Update(roles[roles.Count - 1]);
+
+            Console.WriteLine("-------------------------------------------------------------------------");
+            Console.WriteLine("testing deleting...");
+            Console.WriteLine("-------------------------------------------------------------------------");
+            roleTable.Delete((int)RoleEnum.ROLE_INSERT_DELETE_TEST);
+
+
+            Console.WriteLine();
+            Console.WriteLine("---------------------------------------------------------------------------------------");
+            Console.WriteLine("End of RoleTable test");
             Console.WriteLine("---------------------------------------------------------------------------------------");
         }
 

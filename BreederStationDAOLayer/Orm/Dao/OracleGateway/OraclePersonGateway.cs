@@ -170,16 +170,14 @@ namespace BreederStationDataLayer.Orm.Dao
         protected override IList<Person> Read(DbDataReader reader)
         {
             OracleDataReader oracleReader = (OracleDataReader)reader;
-            bool dontRead = false;
-            bool goNext = true;
+            bool goNext = false ;
 
             const int START_COLUMN_POSSITION_OF_CAGE_INFORMATION = 14;
             const int LOGIN_COLUMN_POSSITION = 1;
             IList<Person> persons = new List<Person>();
 
-            while ((dontRead || oracleReader.Read()) && goNext)
+            while (goNext || oracleReader.Read())
             {
-                dontRead = false;
                 int i = -1;
                 Person person = new Person();
                 Breeder breeder = null;
@@ -234,27 +232,25 @@ namespace BreederStationDataLayer.Orm.Dao
                     person.Role = role;
                 }
 
-                //adding all cleaner cages for every cleaner
-                if (person.Role.Type == RoleEnum.UKLIZEC)
+                string lastLogin = person.Login;
+
+
+                if (!oracleReader.IsDBNull(START_COLUMN_POSSITION_OF_CAGE_INFORMATION))
                 {
-                    string lastLogin = person.Login;
-
-
-                    if (!oracleReader.IsDBNull(START_COLUMN_POSSITION_OF_CAGE_INFORMATION))
+                    cleaner.Cages = new List<Cage>();
+                    do
                     {
-                        cleaner.Cages = new List<Cage>();
-                        dontRead = true;
-                        do
-                        {
-                            int j = START_COLUMN_POSSITION_OF_CAGE_INFORMATION - 1;
-                            Cage cage = new Cage();
-                            cage.Id = oracleReader.GetInt32(++j);
-                            cage.LengthM = oracleReader.GetInt32(++j);
-                            cage.WidthM = oracleReader.GetInt32(++j);
-                            cleaner.Cages.Add(cage);
-                            goNext = oracleReader.Read();
-                        } while (goNext && lastLogin == oracleReader.GetString(LOGIN_COLUMN_POSSITION));
-                    }
+                        int j = START_COLUMN_POSSITION_OF_CAGE_INFORMATION - 1;
+                        Cage cage = new Cage();
+                        cage.Id = oracleReader.GetInt32(++j);
+                        cage.LengthM = oracleReader.GetInt32(++j);
+                        cage.WidthM = oracleReader.GetInt32(++j);
+                        cleaner.Cages.Add(cage);
+                        goNext = oracleReader.Read();
+                    } while (goNext && lastLogin == oracleReader.GetString(LOGIN_COLUMN_POSSITION));
+                } else
+                {
+                    goNext = false;
                 }
 
                 persons.Add(person);
