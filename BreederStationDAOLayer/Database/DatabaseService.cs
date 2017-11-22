@@ -10,6 +10,7 @@ namespace BreederStationDataLayer.Database
 {
     public class DatabaseService : IDatabaseService
     {
+        private static string connectionString;
 
         private static DbConnection connection;
         private DbTransaction SqlTransaction { get; set; }
@@ -39,7 +40,7 @@ namespace BreederStationDataLayer.Database
 
             if (connection.State != System.Data.ConnectionState.Open)
             {
-                ret = ConnectIntern(BreederStationDAOLayer.Properties.Settings.Default.OracleConnString);
+                ret = ConnectIntern(DatabaseService.connectionString);
             }
 
             return ret;
@@ -93,7 +94,7 @@ namespace BreederStationDataLayer.Database
 
         public DbCommand CreateCommand(string strCommand)
         {
-            DbCommand command = CommandCreator.createCommand(connection, strCommand);
+            DbCommand command = DatabaseResourceCreator.createCommand(connection, strCommand);
 
             if (SqlTransaction != null)
             {
@@ -112,6 +113,7 @@ namespace BreederStationDataLayer.Database
         public static void init(DbConnection connection)
         {
             DatabaseService.connection = connection;
+            DatabaseService.connectionString = DatabaseResourceCreator.createConnectionString(connection);
         }
     }
 }

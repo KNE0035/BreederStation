@@ -36,5 +36,32 @@ namespace BreederStationDAOLayer.Properties {
                 this["OracleConnString"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=srvfeia01.msa" +
+            "d.vsb.cz)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=oracle.dbsys" +
+            ".cs.vsb.cz)));User Id=kne0035;Password=fgwwpUyhji;Connection Timeout=45;")]
+        public string OracleSkolaConnString {
+            get {
+                return ((string)(this["OracleSkolaConnString"]));
+            }
+            set {
+                this["OracleSkolaConnString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server = dbsys.cs.vsb.cz\\STUDENT; Database = kne0035; User Id = kne0035; Password" +
+            " = AnGzFMLkN4;")]
+        public string SqlServerConnString {
+            get {
+                return ((string)(this["SqlServerConnString"]));
+            }
+            set {
+                this["SqlServerConnString"] = value;
+            }
+        }
     }
 }

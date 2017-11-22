@@ -1,11 +1,9 @@
 ﻿using BreederStationDAOLayer.Database;
 using BreederStationDataLayer;
-using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDataLayer.Orm.Dto;
 using BreederStationDataLayer.Orm.SelectCriteria;
 using DAIS_KNE0035.Orm.SelectCriteria;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 
@@ -15,29 +13,17 @@ namespace testBreederStationDataLayer
     {
         static void Main(string[] args)
         {
-            RepositoryRegister register = RepositoryRegister.getInstance();
-            DatabaseService.init(new OracleConnection());
-            //register.Register(typeof(DatabaseService), DatabaseService.getInstance());
-            register.Register(typeof(PersonGateway), new OraclePersonGateway(DatabaseService.getInstance()));
-            register.Register(typeof(AddressGateway), new OracleAddressGateway(DatabaseService.getInstance()));
-            register.Register(typeof(CageGateway), new OracleCageGateway(DatabaseService.getInstance()));
-            register.Register(typeof(AnimalGateway), new OracleAnimalGateway(DatabaseService.getInstance()));
-            register.Register(typeof(AnimalGroupGateway), new OracleAnimalGroupGateway(DatabaseService.getInstance()));
-            register.Register(typeof(CompanyGateway), new OracleCompanyGateway(DatabaseService.getInstance()));
-            register.Register(typeof(EventGateway), new OracleEventGateway(DatabaseService.getInstance()));
-            register.Register(typeof(FoodOrderPendingGateway), new OracleFoodOrderPendingGateway(DatabaseService.getInstance()));
-            register.Register(typeof(FoodGateway), new OracleFoodGateway(DatabaseService.getInstance()));
-            register.Register(typeof(RoleGateway), new OracleRoleGateway(DatabaseService.getInstance()));
+            DatabaseTypeInitializer.InitializeDatabaseType(DatabaseTypeEnum.ORACLE_DATABASE);
 
-            //tesPersonTable();
-            //testAdressTable();
-            //testCageTable();
-            //testAnimalTable();
-            //testAnimalGroupTable();
-            //testCompanyTable();
-            //testEventTable();
-            //testFoodOrderPending();
-            //testFoodTable();
+            tesPersonTable();
+            testAdressTable();
+            testCageTable();
+            testAnimalTable();
+            testAnimalGroupTable();
+            testCompanyTable();
+            testEventTable();
+            testFoodOrderPending();
+            testFoodTable();
             testRoleTable();
             Console.Read();
 
@@ -65,8 +51,8 @@ namespace testBreederStationDataLayer
 
             Cleaner cleaner = new Cleaner
             {
-                Login = "test6455",
-                Password = "sa",
+                Login = "test4",
+                Password = "sas",
                 FirstName = "Marek_testp",
                 LastName = "Kneys_",
                 Phone = "420 456 987 842",
@@ -90,7 +76,7 @@ namespace testBreederStationDataLayer
             }
             Console.WriteLine("-------------------------------------------------------------------------");
 
-            Person selected_person = personTable.Select("test6455");
+            Person selected_person = personTable.Select("test4");
             Console.WriteLine("Vypis zamestnance s loginem mkneys");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine(selected_person);
@@ -112,12 +98,12 @@ namespace testBreederStationDataLayer
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("testing inserting responsibility...");
             Console.WriteLine("-------------------------------------------------------------------------");
-            personTable.InsertResponsibilityForCage(selected_person.Id, 41);
+            personTable.InsertResponsibilityForCage(selected_person.Id, 1);
 
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("testing deleting responsibility...");
             Console.WriteLine("-------------------------------------------------------------------------");
-            personTable.DeleteResponsibilityForCage(selected_person.Id, 41);
+            personTable.DeleteResponsibilityForCage(selected_person.Id, 1);
 
             Console.WriteLine();
             Console.WriteLine("---------------------------------------------------------------------------------------");
@@ -131,7 +117,6 @@ namespace testBreederStationDataLayer
 
             IList<Address> addresses = new List<Address>();
 
-            addresses = addressGateway.Select();
             Console.WriteLine("---------------------------------------------------------------------------------------");
             Console.WriteLine("addressGateway test");
             Console.WriteLine("---------------------------------------------------------------------------------------");
@@ -139,9 +124,9 @@ namespace testBreederStationDataLayer
 
             Address address = new Address
             {
-                City = "ostravaasdsadfasf",
-                Street = "Krestopva_update",
-                Zipcode = "70030"
+                City = "ostravaasdsadfasdasfasasfdssf",
+                Street = "Krestopva_updatesadsa",
+                Zipcode = "70040"
             };
 
 
@@ -149,7 +134,7 @@ namespace testBreederStationDataLayer
             Console.WriteLine("testing createing address...");
             Console.WriteLine("-------------------------------------------------------------------------");
             addressGateway.Insert(address);
-
+            addresses = addressGateway.Select();
 
             Console.WriteLine("Vypis address");
             Console.WriteLine("-------------------------------------------------------------------------");
@@ -165,7 +150,7 @@ namespace testBreederStationDataLayer
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("testing deleting...");
             Console.WriteLine("-------------------------------------------------------------------------");
-            addressGateway.Delete(15);
+            addressGateway.Delete(addresses[addresses.Count-1].Id);
 
 
             Console.WriteLine();
@@ -240,9 +225,9 @@ namespace testBreederStationDataLayer
                 Race = "test race",
                 Sex = SexEnum.samec,
                 BirthDate = new DateTime(2013, 06, 30),
-                AnimalGroup = new AnimalGroup { Id = 35 },
-                Cage = new Cage { Id = 41 },
-                Food = new Food { Id = 21 }
+                AnimalGroup = new AnimalGroup { Id = 1 },
+                Cage = new Cage { Id = 1 },
+                Food = new Food { Id = 1 }
             };
 
             Console.WriteLine("-------------------------------------------------------------------------");
@@ -270,6 +255,7 @@ namespace testBreederStationDataLayer
                 Console.WriteLine("-------------------------------------------------------------------------");
                 Console.WriteLine("testing updating...");
                 Console.WriteLine("-------------------------------------------------------------------------");
+
                 animals[animals.Count - 1].Name = "test_update";
                 animalTable.Update(animals[animals.Count - 1]);
 
@@ -322,8 +308,8 @@ namespace testBreederStationDataLayer
             }
             Console.WriteLine("-------------------------------------------------------------------------");
 
-            AnimalGroup animalGroupSelected = animalGroupTable.Select(35);
-            Console.WriteLine("Vypis grupy s id " + 35);
+            AnimalGroup animalGroupSelected = animalGroupTable.Select(1);
+            Console.WriteLine("Vypis grupy s id " + 1);
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine(animalGroupSelected);
             Console.WriteLine("-------------------------------------------------------------------------");
@@ -359,7 +345,7 @@ namespace testBreederStationDataLayer
 
             Company company = new Company
             {
-                Address = new Address { Id = 11 },
+                Address = new Address { Id = 1 },
                 Email = "mkneys@vsb.cz",
                 Phone = "454 545 122 454",
                 Trademark = "test_trademark_2"
@@ -415,9 +401,9 @@ namespace testBreederStationDataLayer
             Console.WriteLine();
 
             IList<int> animalIds = new List<int>();
-            animalIds.Add(7);
-            animalIds.Add(9);
-            animalIds.Add(10);
+            animalIds.Add(1);
+            animalIds.Add(2);
+            animalIds.Add(3);
 
             Event animalEvent = new Event
             {
@@ -510,7 +496,7 @@ namespace testBreederStationDataLayer
 
             FoodOrderPending fop = new FoodOrderPending
             {
-                Food = new Food { Id = 21 },
+                Food = new Food { Id = 1 },
                 Priority = FoodOrderPriorityEnum.medium,
                 ResolvedDate = DateTime.Now,
                 StartDate = DateTime.Now

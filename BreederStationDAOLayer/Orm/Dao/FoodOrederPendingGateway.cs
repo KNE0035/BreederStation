@@ -9,63 +9,53 @@ using System.Threading.Tasks;
 
 namespace BreederStationDataLayer.Orm.Dao
 {
-    public abstract class AddressGateway
+    public abstract class FoodOrderPendingGateway
     {
         private IDatabaseService db;
 
-        public AddressGateway(IDatabaseService databaseService)
+        public FoodOrderPendingGateway(IDatabaseService databaseService)
         {
             this.db = databaseService;
         }
 
-        public int Delete(int addressId)
-        {
-            db.Connect();
-            DbCommand command = db.CreateCommand(GetDeleteSql());
-            PrepareIdCommand(command, addressId);
-            int ret = db.ExecuteNonQuery(command);
-            db.Close();
-            return ret;
-        }
-
-        public int Update(Address address)
+        public int Update(FoodOrderPending foodOrderPending)
         {
             db.Connect();
             DbCommand command = db.CreateCommand(GetUpdateSql());
-            PrepareCommand(command, address);
+            PrepareInsertUpdateCommand(command, foodOrderPending);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
         }
-        public IList<Address> Select()
+        public IList<FoodOrderPending> Select(bool isResolved)
         {
             db.Connect();
-
             DbCommand command = db.CreateCommand(GetSelectSql());
+            applyResolvedCriterium(command, isResolved);
             DbDataReader reader = db.Select(command);
 
-            IList<Address> addresses = Read(reader);
+            IList<FoodOrderPending> foodOrderPendings = Read(reader);
             reader.Close();
             db.Close();
-            return addresses;
+            return foodOrderPendings;
         }
-        public int Insert(Address address)
+        public int Insert(FoodOrderPending foodOrderPending)
         {
             db.Connect();
             DbCommand command = db.CreateCommand(GetInsertSql());
-            PrepareCommand(command, address);
+            PrepareInsertUpdateCommand(command, foodOrderPending);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
         }
 
-        protected abstract void PrepareCommand(DbCommand command, Address address);
-        protected abstract void PrepareIdCommand(DbCommand command, int addressId);
+        protected abstract void PrepareInsertUpdateCommand(DbCommand command, FoodOrderPending foodOrderPending);
+
+        protected abstract void applyResolvedCriterium(DbCommand command, bool isResolved);
 
         protected abstract string GetInsertSql();
-        protected abstract string GetDeleteSql();
         protected abstract string GetUpdateSql();
         protected abstract string GetSelectSql();
-        protected abstract IList<Address> Read(DbDataReader reader);
+        protected abstract IList<FoodOrderPending> Read(DbDataReader reader);
     }
 }

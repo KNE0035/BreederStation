@@ -1,71 +1,70 @@
 ﻿using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dto;
-using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BreederStationDataLayer.Orm.Dao
 {
-    public abstract class AddressGateway
+    public abstract class RoleGateway
     {
         private IDatabaseService db;
 
-        public AddressGateway(IDatabaseService databaseService)
+        public RoleGateway(IDatabaseService databaseService)
         {
             this.db = databaseService;
         }
 
-        public int Delete(int addressId)
+        public int Delete(int roleId)
         {
             db.Connect();
             DbCommand command = db.CreateCommand(GetDeleteSql());
-            PrepareIdCommand(command, addressId);
+            PrepareIdCommand(command, roleId);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
         }
 
-        public int Update(Address address)
+        public int Update(Role role)
         {
             db.Connect();
             DbCommand command = db.CreateCommand(GetUpdateSql());
-            PrepareCommand(command, address);
+            PrepareInsertUpdateCommand(command, role);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
         }
-        public IList<Address> Select()
+
+        public IList<Role> Select()
         {
             db.Connect();
 
             DbCommand command = db.CreateCommand(GetSelectSql());
             DbDataReader reader = db.Select(command);
 
-            IList<Address> addresses = Read(reader);
+            IList<Role> roles = Read(reader);
             reader.Close();
             db.Close();
-            return addresses;
+            return roles;
         }
-        public int Insert(Address address)
+        public int Insert(Role role)
         {
             db.Connect();
             DbCommand command = db.CreateCommand(GetInsertSql());
-            PrepareCommand(command, address);
+            PrepareInsertUpdateCommand(command, role);
             int ret = db.ExecuteNonQuery(command);
             db.Close();
             return ret;
         }
 
-        protected abstract void PrepareCommand(DbCommand command, Address address);
-        protected abstract void PrepareIdCommand(DbCommand command, int addressId);
+        protected abstract void PrepareInsertUpdateCommand(DbCommand command, Role role);
+        protected abstract void PrepareIdCommand(DbCommand command, int roleId);
 
         protected abstract string GetInsertSql();
         protected abstract string GetDeleteSql();
         protected abstract string GetUpdateSql();
         protected abstract string GetSelectSql();
-        protected abstract IList<Address> Read(DbDataReader reader);
+
+        protected abstract IList<Role> Read(DbDataReader reader);
     }
 }

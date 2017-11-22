@@ -32,12 +32,12 @@ namespace BreederStationDataLayer.Orm.Dao
         public int Update(Person person)
         {
             db.Connect();
-            DbCommand updatePersonCommand  = db.CreateCommand(GetUpdatePersonSql());
+            db.BeginTransaction();
+            DbCommand updatePersonCommand = db.CreateCommand(GetUpdatePersonSql());
             DbCommand updateBreederCommand = db.CreateCommand(GetUpdateBreederSql());
             DbCommand updateCleanerCommand = db.CreateCommand(GetUpdateCleanerSql());
+
             PrepareUpdateInsertPersonCommand(updatePersonCommand, person);
-            
-            db.BeginTransaction();
 
             int ret = db.ExecuteNonQuery(updatePersonCommand);
 
@@ -101,8 +101,8 @@ namespace BreederStationDataLayer.Orm.Dao
         public int Insert(Person person)
         {
             db.Connect();
-            DbCommand personInsertcommand = db.CreateCommand(GetInsertPersonSql());
             db.BeginTransaction();
+            DbCommand personInsertcommand = db.CreateCommand(GetInsertPersonSql());
             PrepareUpdateInsertPersonCommand(personInsertcommand, person);
             int ret = db.ExecuteNonQuery(personInsertcommand);
 
