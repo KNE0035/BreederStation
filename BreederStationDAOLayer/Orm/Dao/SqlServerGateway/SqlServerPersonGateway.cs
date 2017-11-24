@@ -21,7 +21,7 @@ namespace BreederStationDataLayer.Orm.Dao
 
         private static string SQL_INSERT_CLEANER = @"INSERT INTO CLEANER (PERSON_ID, CHEMICAL_QUALIFICATION) VALUES (@p_person_id, @p_chemical_qualification)";
 
-        private static string SQL_SELECT = @"SELECT p.id, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
+        private static string SQL_SELECT = @"SELECT p.id, p.password, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
                                                    p.ACTIVE, p.LAST_ACTIVE_DATE, ag.id, ag.DESCRIPTION,
                                                    r.id, r.TYPE, r.DESCRIPTION, c.CHEMICAL_QUALIFICATION, ca.ID, ca.LENGTH_M, ca.WIDTH_M
                                             FROM PERSON p
@@ -32,7 +32,7 @@ namespace BreederStationDataLayer.Orm.Dao
                                             LEFT JOIN CAGE_CLEANER cc ON c.PERSON_ID = cc.CLEANER_ID
                                             LEFT JOIN CAGE ca ON cc.CAGE_ID = ca.ID";
 
-        private static string SQL_SELECT_LOGIN = @"SELECT p.id, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
+        private static string SQL_SELECT_LOGIN = @"SELECT p.id, p.password, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
                                                    p.ACTIVE, p.LAST_ACTIVE_DATE, ag.id, ag.DESCRIPTION,
                                                    r.id, r.TYPE, r.DESCRIPTION, c.CHEMICAL_QUALIFICATION, ca.ID, ca.LENGTH_M, ca.WIDTH_M
                                                    FROM PERSON p
@@ -45,13 +45,13 @@ namespace BreederStationDataLayer.Orm.Dao
                                                    WHERE p.active = 1 AND p.login=@p_login";
 
         private static string SQL_UPDATE_PERSON = @"UPDATE Person SET first_name=@p_first_name, last_name=@p_last_name,
-                                                    phone=@p_phone, birth_date=@p_birth_date WHERE login=@p_login";
+                                                    phone=@p_phone, birth_date=@p_birth_date WHERE id=@p_id";
 
         private static string SQL_UPDATE_BREEDER = "UPDATE Breeder SET animal_group_id=@p_animal_group_id WHERE person_id=@p_person_id";
 
         private static string SQL_UPDATE_CLEANER = "UPDATE Cleaner SET chemical_qualification=@p_chemical_qualification WHERE person_id=@p_person_id";
 
-        private static string SQL_DELETE_LOGIN = "UPDATE Person SET active=@p_active, last_active_date=@p_last_active_date WHERE login=@p_login";
+        private static string SQL_DELETE_LOGIN = "UPDATE Person SET active=@p_active, last_active_date=@p_last_active_date WHERE id=@p_id";
 
         private static string SQL_INSERT_RESPONSIBILITY_FOR_CAGE = "INSERT INTO CAGE_CLEANER (cleaner_id, cage_id) VALUES (@p_cleaner_id, @p_cage_id)";
 
@@ -66,6 +66,7 @@ namespace BreederStationDataLayer.Orm.Dao
             SqlCommand sqlCommand = (SqlCommand)command;
 
             sqlCommand.Parameters.Add("@p_login", SqlDbType.VarChar).Value = person.Login;
+            sqlCommand.Parameters.Add("@p_id", SqlDbType.Int).Value = person.Login;
             sqlCommand.Parameters.Add("@p_first_name", SqlDbType.VarChar).Value = person.FirstName;
             sqlCommand.Parameters.Add("@p_last_name", SqlDbType.VarChar).Value = person.LastName;
             sqlCommand.Parameters.Add("@p_phone", SqlDbType.VarChar).Value = person.Phone;
@@ -97,13 +98,13 @@ namespace BreederStationDataLayer.Orm.Dao
             sqlCommand.Parameters.Add("@p_cleaner_id", SqlDbType.Int).Value = idCleaner;
         }
 
-        protected override void PrepareDeletePersonCommand(DbCommand command, string login)
+        protected override void PrepareDeletePersonCommand(DbCommand command, int id)
         {
             SqlCommand sqlCommand = (SqlCommand)command;
 
             sqlCommand.Parameters.Add("@p_active", SqlDbType.Int).Value = 0;
             sqlCommand.Parameters.Add("@p_last_active_date", SqlDbType.Date).Value = DateTime.Now;
-            sqlCommand.Parameters.Add("@p_login", SqlDbType.VarChar).Value = login;
+            sqlCommand.Parameters.Add("@p_id", SqlDbType.Int).Value = id;
         }
 
         protected override void PrepareSelectLoginCommand(DbCommand command, string login)
@@ -172,8 +173,8 @@ namespace BreederStationDataLayer.Orm.Dao
             SqlDataReader sqlReader = (SqlDataReader)reader;
             bool goNext = false ;
 
-            const int START_COLUMN_POSSITION_OF_CAGE_INFORMATION = 14;
-            const int LOGIN_COLUMN_POSSITION = 1;
+            const int START_COLUMN_POSSITION_OF_CAGE_INFORMATION = 15;
+            const int LOGIN_COLUMN_POSSITION = 2;
             IList<Person> persons = new List<Person>();
 
             while (goNext || sqlReader.Read())
@@ -183,6 +184,7 @@ namespace BreederStationDataLayer.Orm.Dao
                 Breeder breeder = null;
                 Cleaner cleaner = null;
                 person.Id = sqlReader.GetInt32(++i);
+                person.Password = sqlReader.GetString(++i);
                 person.Login = sqlReader.GetString(++i);
                 person.FirstName = sqlReader.GetString(++i);
                 person.LastName = sqlReader.GetString(++i);

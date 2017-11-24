@@ -1,0 +1,50 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.col-sm-4 {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+*{
+    padding: 0px;
+}
+
+.navbar-left :first-child a {
+    padding-left: 0px !important;
+}
+
+nav li:hover ul { display:block; }
+
+nav ul ul { display:none; width:100%; position:absolute; left:0; background:#222;  }
+
+nav li a { display:block; color: #999; text-decoration:none; text-align: center}
+
+nav li ul li { height:44px; position:relative; list-style-type:none; border-top: solid 1px}
+
+nav li ul li a:hover { color: white; text-decoration: none}
+
+#AddPersonForm input{
+    width: 200px !important;
+}
+
+#AddPersonForm input[type='submit']{
+    width: 100px !important;
+}
+
+#AddPersonForm input[type='radio']{
+    width: 25px !important;
+}
+
+#AddPersonForm input[type='checkbox']{
+    width: 25px !important;
+}

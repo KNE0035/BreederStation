@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreederStationDataLayer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testBreederStationDataLayer", "testBreederStationDataLayer\testBreederStationDataLayer.csproj", "{C04162A8-E87A-4374-A2A8-D512B6C8A91F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreederStationBussinessLayer", "BreederStationBussinessLayer\BreederStationBussinessLayer.csproj", "{3D13B27B-B052-46EB-8DED-6527A7ABDF60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreederStationAspView", "BreederStationAspView\BreederStationAspView.csproj", "{F6D93F77-4CF8-488D-8F6B-C42BDB6DE788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C04162A8-E87A-4374-A2A8-D512B6C8A91F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D13B27B-B052-46EB-8DED-6527A7ABDF60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D13B27B-B052-46EB-8DED-6527A7ABDF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D13B27B-B052-46EB-8DED-6527A7ABDF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D13B27B-B052-46EB-8DED-6527A7ABDF60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D93F77-4CF8-488D-8F6B-C42BDB6DE788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D93F77-4CF8-488D-8F6B-C42BDB6DE788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D93F77-4CF8-488D-8F6B-C42BDB6DE788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D93F77-4CF8-488D-8F6B-C42BDB6DE788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

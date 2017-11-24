@@ -29,11 +29,11 @@ namespace BreederStationDAOLayer.Database
             string connString = "";
             if (connection.GetType() == typeof(OracleConnection))
             {
-                connString = Properties.Settings.Default.OracleSkolaConnString;
+                connString = ApplicationProperties.OracleConnString;
                 return connString;
             } else if (connection.GetType() == typeof(SqlConnection))
             {
-                connString = Properties.Settings.Default.SqlServerConnString;
+                connString = ApplicationProperties.SqlServerConnString;
                 return connString;
             }
             return null;

@@ -16,13 +16,13 @@ namespace BreederStationDataLayer.Orm.Dao
             this.db = databaseService;
         }
 
-        public int Delete(string login)
+        public int Delete(int id)
         {
             db.Connect();
 
             DbCommand command = db.CreateCommand(GetDeletePersonSql());
 
-            PrepareDeletePersonCommand(command, login);
+            PrepareDeletePersonCommand(command, id);
             int ret = db.ExecuteNonQuery(command);
 
             db.Close();
@@ -156,7 +156,7 @@ namespace BreederStationDataLayer.Orm.Dao
         protected abstract void PrepareUpdateInsertBreederCommand(DbCommand command, Person person);
         protected abstract void PrepareUpdateInsertCleanerCommand(DbCommand command, Person person);
         protected abstract void PrepareResponsibilityForCageCommand(DbCommand command, int idCleaner, int idCage);
-        protected abstract void PrepareDeletePersonCommand(DbCommand command, string login);
+        protected abstract void PrepareDeletePersonCommand(DbCommand command, int id);
         protected abstract void PrepareSelectLoginCommand(DbCommand command, string login);
 
 
