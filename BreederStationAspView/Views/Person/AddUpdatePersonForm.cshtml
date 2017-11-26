@@ -1,0 +1,233 @@
+﻿@model BreederStationAspView.Models.Person
+
+@{
+    ViewBag.Title = "AddPerson";
+}
+
+<script>
+    $(document).ready(function () {
+        if (!($("#edit").val() == 'true')) {
+            $("#cleanerSection").hide();
+            $("#breederSection").hide();
+        } else {
+            $(':radio:not(:checked)').attr('disabled', true);
+        }
+
+
+
+        viewServerValidatingMessages();
+
+        $("input#Role_Type").change(function (event) {
+            var value = event.target.defaultValue;
+
+            if (value == "UKLIZEC") {
+                $("#cleanerSection").toggle();
+                $("#breederSection").hide();
+            } else if (value == "CHOVATEL") {
+                $("#cleanerSection").hide();
+                $("#breederSection").toggle();
+            } else {
+                $("#cleanerSection").hide();
+                $("#breederSection").hide();
+            }
+        });
+
+        $("#addPerson").click(function ( event ) {
+            $("#yearToSelection").addClass("inputInvalid");
+
+            $("#Login").removeClass("inputInvalid");
+            $("#FirstName").removeClass("inputInvalid");
+            $("#LastName").removeClass("inputInvalid");
+            $("#Phone").removeClass("inputInvalid");
+            $("#Role").removeClass("inputInvalid");
+
+            var valid = true;
+            var validationMessages = [];
+
+            var login = $("#Login").val();
+            var name = $("#FirstName").val();
+            var surname = $("#LastName").val();
+            var phone = $("#Phone").val();
+            var checkedRoleInputs = $("input[name='Role.Type']:checked");
+
+
+            if (isBlank(login)) {
+                valid = false;
+                $("#Login").addClass("inputInvalid");
+                validationMessages.push("Neplatný login");
+            }
+
+            if (isBlank(name)) {
+                valid = false;
+                $("#FirstName").addClass("inputInvalid");
+                validationMessages.push("Neplatné jméno");
+            }
+
+            if (isBlank(surname)) {
+                valid = false;
+                $("#LastName").addClass("inputInvalid");
+                validationMessages.push("Neplatné přijmení");
+            }
+
+
+            var regex = /^(\d{3} \d{3} \d{3} \d{3})$/;
+            if (isBlank(phone) || !regex.test(phone)) {
+                valid = false;
+                $("#Phone").addClass("inputInvalid");
+                validationMessages.push("Telfon je ve špatném tvaru, správný tvar (ČČČ ČČČ ČČČ ČČČ)");
+            }
+
+            if (checkedRoleInputs.length != 1 && !$("#edit").val()) {
+                valid = false;
+                $("#Role").addClass("inputInvalid");
+                validationMessages.push("Zvolte funkci zaměstnance");
+            }
+
+            validationMessages.forEach(function (messeage) {
+                toastr.error(messeage);
+            })
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+
+
+        function isBlank(str) {
+            return (!str || /^\s*$/.test(str));
+        }
+
+        function viewServerValidatingMessages() {
+            var messages = $(".personValidatingMesseage");
+
+            if (messages.length > 0) {
+                $.each(messages, function (i , item) {
+                    toastr.error($(item).val());
+                });
+            }
+        }
+    });
+</script>
+
+
+<div id="AddPersonForm">
+    @using (Html.BeginForm("AddUpdatePerson", "Person", FormMethod.Post))
+    {
+        <br>
+        <br>
+
+        if (ViewBag.Messages != null)
+        {
+            foreach (var item in ViewBag.Messages)
+            {
+               <input type="hidden" class="personValidatingMesseage" value="@item"/>
+            }
+        }
+
+        if (ViewBag.edit)
+        {
+            <legend>Detail zaměstnance</legend>
+            <input id="Id" name="Id" type="hidden" value='@(Model.Id)' />
+            <input id="oldLogin" name="oldLogin" type="hidden" value='@(Model.Login)' />
+        }
+        else
+        {
+            <legend>Vložení zaměstnance</legend>
+        }
+
+        <input id="edit" name="edit" type="hidden" value='@(ViewBag.edit ? "true" : "false")'/>
+
+        <div id="personBasicInfo">
+            <div class="col-sm-4">
+                <div>@Html.Label("Login *")</div>
+                <div>@Html.TextBoxFor(m => Model.Login)</div>
+            </div>
+
+            <div class="col-sm-4">
+                <div>@Html.Label("Jméno *")</div>
+                <div>@Html.TextBoxFor(m => Model.FirstName)</div>
+            </div>
+
+            <div class="col-sm-4">
+                <div>@Html.Label("Příjmení *")</div>
+                <div>@Html.TextBoxFor(m => Model.LastName)</div>
+            </div>
+
+            <div style="clear:both; padding-top: 30px">
+                <div>@Html.Label("Telefon *")</div>
+                <div>@Html.TextBoxFor(m => Model.Phone)</div>
+            </div>
+
+            <div style="margin-top: 30px">
+                <div>@Html.Label("Datum narození *")</div>
+                @Html.TextBoxFor(model => Model.BirthDate, "{0:yyyy-MM-dd}", new { @type = "date"})
+            </div>
+        </div>
+
+        <hr>
+        <div  id="Role" style="height: 85px;">
+            <legend>Uživatelská role @(ViewBag.edit ? "(Nezměnitelné)" : "")</legend>
+
+            <div class="col-sm-2">
+                <label>
+                    Admin
+                    @Html.RadioButtonFor(m => Model.Role.Type, BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN)
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label>
+                    Ředitel
+                    @Html.RadioButtonFor(m => Model.Role.Type, BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label>
+                    Chovatel
+                    @Html.RadioButtonFor(m => Model.Role.Type, BreederStationBussinessLayer.Domain.Enums.RoleEnum.CHOVATEL)
+                </label>
+            </div>
+            <div class="col-sm-2">
+                <label>
+                    Uklízeč
+                    @Html.RadioButtonFor(m => Model.Role.Type, BreederStationBussinessLayer.Domain.Enums.RoleEnum.UKLIZEC)
+                </label>
+            </div>
+        </div>
+
+        if (!ViewBag.edit ||  Model.Cleaner != null)
+        {
+            <div id="cleanerSection" style="clear:both">
+                <hr>
+                <legend>Sekce uklízeče</legend>
+                <label>
+                    @Html.CheckBoxFor(m => Model.Cleaner.ChemicalQualification, "CLEANER")
+                    Chemická kvalifikace
+                </label>
+            </div>
+        }
+
+        if (!ViewBag.edit || Model.Breeder != null)
+        {
+            <div id="breederSection">
+                <hr style="clear:both">
+                <legend>Sekce Chovatele</legend>
+
+                <label>
+                    Vyberte skupinu
+                    @Html.DropDownListFor(m => Model.Breeder.AnimalGroup.Id, new SelectList(ViewBag.possibleGroups, "Id", "Description", null))
+                </label>
+            </div>
+        }
+
+        <hr style="clear:both">
+
+        if (ViewBag.edit)
+        {
+            <div style="text-align: center"><input id="addPerson" style="margin: 0 auto" type="submit" value="Upravit zaměstnance" /></div>
+        }
+        else
+        {
+            <div style="text-align: center"><input id="addPerson" style="margin: 0 auto" type="submit" value="Vložit zaměstnance" /></div>
+        }
+    }
+</div>

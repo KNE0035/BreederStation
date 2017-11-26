@@ -1,0 +1,101 @@
+﻿@model BreederStationBussinessLayer.SelectCriteria.AnimalCriteria
+
+@{
+    ViewBag.Title = "AnimalSearch";
+
+    BreederStationAspView.Models.User user = Session["user"] as BreederStationAspView.Models.User;
+}
+
+@using (Html.BeginForm("SearchAnimals", "Animal", FormMethod.Post))
+{
+    <br>
+    <legend>Vyhledávání zvířat</legend>
+
+
+    <div id="animalSearchForm">
+        <div class="col-sm-3">
+            <div>@Html.Label("Jméno")</div>
+            <div>@Html.TextBoxFor(m => Model.Name)</div>
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Rasa")</div>
+            <div>@Html.TextBoxFor(m => Model.Race)</div>
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Pohlaví")</div>
+            @Html.DropDownListFor(m => Model.Sex,
+                   EnumHelper.GetSelectList(typeof(BreederStationBussinessLayer.Domain.Enums.SexEnum)),
+                   "Oba")
+        </div>
+
+        <div style="clear: both" class="col-sm-3">
+            <div>@Html.Label("Věk ")</div>
+            <div>@Html.TextBoxFor(m => Model.Age, new { type = "number" })</div>
+        </div>
+
+        <div class="col-sm-3">
+                <div>@Html.Label("Klec čislo")</div>
+                @Html.DropDownListFor(m => Model.CageId, new SelectList(ViewBag.possibleCages, "Id", "Id", null))
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Skupina")</div>
+            @Html.DropDownListFor(m => Model.AnimalGroupId, new SelectList(ViewBag.possibleGroups, "Id", "DESCRIPTION", null))
+        </div>
+     </div>
+
+    <br style="clear: both">
+    <hr>
+
+    <div style="text-align: center"><input id="SearchAnimals" style="margin: 0 auto; width: 100px" type="submit" value="Vyhledej" /></div>
+}
+
+
+@if (ViewBag.SearchedAnimals != null)
+{
+    <div class="container">
+        <h2>Vyhledaná zvířata</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Jméno</th>
+                    <th>Rasa</th>
+                    <th>Datum narození</th>
+                    <th>Skupina</th>
+                    <th>Popis Skupiny</th>
+                    <th>Klec</th>
+                    <th>Jídlo</th>
+                    <th>Pohlaví</th>
+                    @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
+                    {
+                        <th></th>
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.SearchedAnimals)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Race</td>
+                        <td>@item.BirthDate</td>
+                        <td>@item.AnimalGroup.Id</td>
+                        <td>@item.AnimalGroup.Description</td>
+                        <td>@item.Cage.Id</td>
+                        <td>@item.Food.Name</td>
+                        <td>@item.Sex.ToString()</td>
+                        
+                        @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
+                        {
+                            <td>@Html.ActionLink("Detail", "AddUpdateAnimal", "Animal", new { id = item.Id }, null)</td>
+                            <td>@Html.ActionLink("Smazat", "Delete", "Animal", new { id = @item.Id }, null)</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

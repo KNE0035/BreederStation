@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "PersonList";
+}
+
+
+<div class="container">
+    <h2>Zaměstanci</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>Tel číslo</th>
+                <th>Datum narození</th>
+                <th>Pozice</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Funds)
+            {
+                <tr> 
+                    <td>@item.Login</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Phone</td>
+                    <td>@item.BirthDate</td>
+                    <td>@item.Role.Type.ToString()</td>  
+                    <td>@Html.ActionLink("Detail", "AddUpdatePersonForm", "Person", new { personLogin = item.Login }, null)</td>    
+                    <td>@Html.ActionLink("Smazat", "Delete", "Person", new { id = @item.Id }, null)</td>             
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

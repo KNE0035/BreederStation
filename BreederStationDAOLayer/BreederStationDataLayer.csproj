@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF1FDB2B-DA19-4F60-8E31-B81D7D4BBC0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BreederStationDAOLayer</RootNamespace>
+    <AssemblyName>BreederStationDAOLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\ApplicationProperties.cs" />
+    <Compile Include="Database\DatabaseTypeInitializer.cs" />
+    <Compile Include="Database\DatabaseResourceCreator.cs" />
+    <Compile Include="Database\DatabaseService.cs" />
+    <Compile Include="Database\IDatabaseService.cs" />
+    <Compile Include="Database\RepositoryRegister.cs" />
+    <Compile Include="Database\DatabaseTypeEnum.cs" />
+    <Compile Include="Orm\Dao\RoleGateway.cs" />
+    <Compile Include="Orm\Dao\FoodGateway.cs" />
+    <Compile Include="Orm\Dao\FoodOrederPendingGateway.cs" />
+    <Compile Include="Orm\Dao\EventGateway.cs" />
+    <Compile Include="Orm\Dao\CompanyGateway.cs" />
+    <Compile Include="Orm\Dao\AnimalGroupGateway.cs" />
+    <Compile Include="Orm\Dao\AnimalGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleFoodGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleFoodOrderPendingGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleEventGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleCompanyGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleAnimalGroupGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleAnimalGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleRoleGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerRoleGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerFoodGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerFoodOrderPendingGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerEventGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerCompanyGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerAnimalGroupGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerAnimalGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerCageGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerAddressGateway.cs" />
+    <Compile Include="Orm\Dao\SqlServerGateway\SqlServerPersonGateway.cs" />
+    <Compile Include="Orm\Dto\Address.cs" />
+    <Compile Include="Orm\Dto\Animal.cs" />
+    <Compile Include="Orm\Dto\AnimalGroup.cs" />
+    <Compile Include="Orm\Dto\Breeder.cs" />
+    <Compile Include="Orm\Dto\Cage.cs" />
+    <Compile Include="Orm\Dto\Cleaner.cs" />
+    <Compile Include="Orm\Dto\Company.cs" />
+    <Compile Include="Orm\Dto\Event.cs" />
+    <Compile Include="Orm\Dto\Food.cs" />
+    <Compile Include="Orm\Dto\FoodOrderPending.cs" />
+    <Compile Include="Orm\Dto\Person.cs" />
+    <Compile Include="Orm\Dto\Role.cs" />
+    <Compile Include="FoodOrederPriorityEnum.cs" />
+    <Compile Include="Orm\Dao\CageGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleCageGateway.cs" />
+    <Compile Include="Orm\Dao\PersonGateway.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="SelectCriteria\AnimalCriteria.cs" />
+    <Compile Include="SelectCriteria\CompanyCriteria.cs" />
+    <Compile Include="SelectCriteria\FoodCriteria.cs" />
+    <Compile Include="SelectCriteria\PersonCriteria.cs" />
+    <Compile Include="Orm\Dao\AddressGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OracleAddressGateway.cs" />
+    <Compile Include="Orm\Dao\OracleGateway\OraclePersonGateway.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleEnum.cs" />
+    <Compile Include="SexEnum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
