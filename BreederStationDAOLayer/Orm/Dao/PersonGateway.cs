@@ -98,6 +98,30 @@ namespace BreederStationDataLayer.Orm.Dao
             return person;
         }
 
+        public Person Select(int personId, bool closeAtEnd = true)
+        {
+            db.Connect();
+
+            DbCommand command = db.CreateCommand(GetSelectIdSql());
+            PrepareSelectIdCommand(command, personId);
+            DbDataReader reader = db.Select(command);
+
+            IList<Person> persons = Read(reader);
+            Person person = null;
+            if (persons.Count != 0)
+            {
+                person = persons[0];
+            }
+
+            reader.Close();
+
+            if (closeAtEnd)
+            {
+                db.Close();
+            }
+            return person;
+        }
+
         public int Insert(Person person)
         {
             db.Connect();
@@ -152,6 +176,8 @@ namespace BreederStationDataLayer.Orm.Dao
             return ret;
         }
 
+
+        protected abstract void PrepareSelectIdCommand(DbCommand command, int personId);
         protected abstract void PrepareUpdateInsertPersonCommand(DbCommand command, Person person);
         protected abstract void PrepareUpdateInsertBreederCommand(DbCommand command, Person person);
         protected abstract void PrepareUpdateInsertCleanerCommand(DbCommand command, Person person);
@@ -167,6 +193,7 @@ namespace BreederStationDataLayer.Orm.Dao
         protected abstract String GetInsertCageResponsibilitySql();
         protected abstract String GetDeleteCageResponsibilitySql();
         protected abstract String GetSelectLoginSql();
+        protected abstract String GetSelectIdSql();
         protected abstract String GetSelectSql();
         protected abstract string GetInsertPersonSql();
         protected abstract string GetInsertBreederSql();

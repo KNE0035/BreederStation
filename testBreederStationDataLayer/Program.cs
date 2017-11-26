@@ -3,7 +3,6 @@ using BreederStationDataLayer;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDataLayer.Orm.Dto;
 using BreederStationDataLayer.Orm.SelectCriteria;
-using DAIS_KNE0035.Orm.SelectCriteria;
 using System;
 using System.Collections.Generic;
 

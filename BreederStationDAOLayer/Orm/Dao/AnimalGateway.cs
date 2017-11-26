@@ -1,12 +1,8 @@
 ﻿using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dto;
-using DAIS_KNE0035.Orm.SelectCriteria;
-using System;
+using BreederStationDataLayer.Orm.SelectCriteria;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BreederStationDataLayer.Orm.Dao
 {

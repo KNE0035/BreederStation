@@ -8,6 +8,14 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+    <script>
+        toastr.options = {
+            "timeOut": "2500",
+        }
+    </script>
+
 </head>
 
 @{
@@ -23,18 +31,35 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-left">
                             <li>@Html.ActionLink("Úvod", "Index", "Home")</li>
-                            @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN)
+                            @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
                             {
                                 <li>
                                     @Html.ActionLink("Zaměstnanci", "PersonList", "Person")
-                                <ul class="personSubMenu">
-                                    <li>@Html.ActionLink("Evidence zaměstnanců", "PersonList", "Person")</li>
-                                    <li>@Html.ActionLink("Přidat zaměstance", "AddPersonForm", "Person")</li>
-                                </ul>
-                            </li>
+                                    <ul class="personSubMenu">
+                                        <li>@Html.ActionLink("Evidence zaměstnanců", "PersonList", "Person")</li>
+                                        <li>@Html.ActionLink("Přidat zaměstance", "AddUpdatePersonForm", "Person")</li>
+                                    </ul>
+                                </li>
                             }
+                            @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.CHOVATEL)
+                            {
+                                <li>
+                                    @Html.ActionLink("Zvířata", "AnimalSearch", "Animal")
+                                    <ul class="animalSubMenu">
+                                        <li>@Html.ActionLink("Vyhledávání zvířat", "AnimalSearch", "Animal")</li>
+                                        
+                                        @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
+                                        {
+                                            <li>@Html.ActionLink("Přidat zvíře", "AddUpdateAnimalForm", "Animal")</li>
+                                        }
+                                        
+                                    </ul>
+                                </li>
+                            }
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
+                            <li>@Html.ActionLink("Změnit heslo", "ChangePasswordForm", "Login")</li>
                             <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
                         </ul>
                     </div>

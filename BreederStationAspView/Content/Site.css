@@ -25,7 +25,7 @@
 
 nav li:hover ul { display:block; }
 
-nav ul ul { display:none; width:100%; position:absolute; left:0; background:#222;  }
+nav ul ul { display:none; width:150px; position:absolute; left:0; background:#222;  }
 
 nav li a { display:block; color: #999; text-decoration:none; text-align: center}
 
@@ -38,7 +38,7 @@ nav li ul li a:hover { color: white; text-decoration: none}
 }
 
 #AddPersonForm input[type='submit']{
-    width: 100px !important;
+    width: 150px !important;
 }
 
 #AddPersonForm input[type='radio']{
@@ -47,4 +47,8 @@ nav li ul li a:hover { color: white; text-decoration: none}
 
 #AddPersonForm input[type='checkbox']{
     width: 25px !important;
+}
+
+.inputInvalid {
+    border: red 1px solid;
 }

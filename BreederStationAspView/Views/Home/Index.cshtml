@@ -1,8 +1,14 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    var user = @Session["user"] as BreederStationAspView.Models.User;
+
 }
 
 
-<h2>Index</h2>
+<h3>
+    <p>Vitejte v systému chovné stanice.</p>
+    <hr>
+    <p>Jste přihlášen pod uživatelem: @user.Login (pozice: @user.Role).</p>
+</h3>
 

@@ -1,4 +1,4 @@
-﻿using BreederStationDataLayer;
+﻿using BreederStationBussinessLayer.Domain.Enums;
 using System;
 using System.Text;
 
@@ -46,6 +46,14 @@ namespace BreederStationBussinessLayer.Domain
                 ret.Append(Food.ToString());
             }
             return ret.ToString();
+        }
+
+        public int GetAnimalAge()
+        {
+            var today = DateTime.Today;
+            var age = today.Year - BirthDate.Year;
+            if (BirthDate > today.AddYears(-age)) age--;
+            return age;
         }
     }
 }

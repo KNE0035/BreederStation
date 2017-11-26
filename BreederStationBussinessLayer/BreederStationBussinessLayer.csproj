@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -58,11 +59,17 @@
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectCriteria\AnimalCriteria.cs" />
+    <Compile Include="Service\CageService.cs" />
     <Compile Include="Service\AnimalGroupService.cs" />
     <Compile Include="Service\Impl\AnimalGroupServiceImpl.cs" />
+    <Compile Include="Service\AnimalService.cs" />
+    <Compile Include="Service\Impl\AnimalServiceImpl.cs" />
+    <Compile Include="Service\Impl\CageServiceImpl.cs" />
     <Compile Include="Service\PersonService.cs" />
     <Compile Include="Service\Impl\PersonServiceImpl.cs" />
     <Compile Include="Service\ServiceRegister.cs" />
+    <Compile Include="ValidationObjects\PersonValidationObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BreederStationDAOLayer\BreederStationDataLayer.csproj">

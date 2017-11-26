@@ -1,13 +1,10 @@
 ﻿using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dto;
-using DAIS_KNE0035.Orm.SelectCriteria;
-using Oracle.ManagedDataAccess.Client;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Diagnostics;
-using System;
 using System.Data.SqlClient;
 using System.Data;
+using BreederStationDataLayer.Orm.SelectCriteria;
 
 namespace BreederStationDataLayer.Orm.Dao
 {

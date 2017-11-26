@@ -14,7 +14,7 @@ namespace BreederStationBussinessLayer.Service.Impl
         AnimalGroupGateway animalGroupGateway = RepositoryRegister.getInstance().Get<AnimalGroupGateway>();
         public bool AddAnimalGroup(AnimalGroup animalGroup)
         {
-            throw new NotImplementedException();
+            return animalGroupGateway.Insert(mapDomainToDtoObject(animalGroup)) > 0;
         }
 
         public IList<AnimalGroup> GetAllAnimalGroups(bool allInfo)
@@ -24,29 +24,43 @@ namespace BreederStationBussinessLayer.Service.Impl
 
             foreach (BreederStationDataLayer.Orm.Dto.AnimalGroup dtoGroup in dtoGroups)
             {
-                AnimalGroup aninalGroup;
-
-                aninalGroup = new AnimalGroup
-                {
-                    Id = dtoGroup.Id,
-                    Description = dtoGroup.Description,
-                    AnimalsInfo = dtoGroup.AnimalsInfo,
-                    BreedersInfo = dtoGroup.BreedersInfo
-                };
-
-                animalGroups.Add(aninalGroup);
+                animalGroups.Add(mapDtoToDomainObject(dtoGroup));
             }
             return animalGroups;
         }
 
         public bool RemoveAnimalGroup(int id)
         {
-            throw new NotImplementedException();
+            return animalGroupGateway.Delete(id) > 0;
         }
 
-        public Person UpdateAnimalGroup(AnimalGroup animalGroup)
+        public bool UpdateAnimalGroup(AnimalGroup animalGroup)
         {
-            throw new NotImplementedException();
+            return animalGroupGateway.Update(mapDomainToDtoObject(animalGroup)) > 0;
+        }
+
+        private BreederStationDataLayer.Orm.Dto.AnimalGroup mapDomainToDtoObject(AnimalGroup animalGroup)
+        {
+            BreederStationDataLayer.Orm.Dto.AnimalGroup dtoAnimalGroup = new BreederStationDataLayer.Orm.Dto.AnimalGroup
+            {
+                Id = animalGroup.Id,
+                Description = animalGroup.Description,
+                AnimalsInfo = animalGroup.AnimalsInfo,
+                BreedersInfo = animalGroup.BreedersInfo
+            };
+            return dtoAnimalGroup;
+        }
+
+        private AnimalGroup mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.AnimalGroup dtoAnimalGroup)
+        {
+            AnimalGroup aninalGroup = new AnimalGroup
+            {
+                Id = dtoAnimalGroup.Id,
+                Description = dtoAnimalGroup.Description,
+                AnimalsInfo = dtoAnimalGroup.AnimalsInfo,
+                BreedersInfo = dtoAnimalGroup.BreedersInfo
+            };
+            return aninalGroup;
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using BreederStationAspView.Models;
-using BreederStationBussinessLayer.Domain;
 using BreederStationBussinessLayer.Service;
-using BreederStationBussinessLayer.Service.Impl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BreederStationAspView.Controllers
@@ -14,7 +8,6 @@ namespace BreederStationAspView.Controllers
     {
         PersonService personService = ServiceRegister.getInstance().Get<PersonService>();
 
-        // GET: Login
         public ActionResult Login()
         {
             return View();
@@ -23,7 +16,7 @@ namespace BreederStationAspView.Controllers
         [HttpPost]
         public ActionResult Login(string Login, string Password)
         {
-            Person person = personService.Authorize(Login, Password);
+            BreederStationBussinessLayer.Domain.Person person = personService.Authorize(Login, Password);
             if(person != null)
             {
                 Session["user"] = new User() { Id = person.Id, Login = person.Login, Role = person.Role.Type };
@@ -36,7 +29,28 @@ namespace BreederStationAspView.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ChangePasswordForm()
+        {
+            if(Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Login");
+            } 
+            return View();
+        }
+
+        public ActionResult ChangePassword(User user)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            User sessionedUser = Session["user"] as User;
+            personService.UpdateUserPassword(sessionedUser.Login, user.Password);
+            Session.Clear();
+            return RedirectToAction("Login", "Login");
         }
     }
 }

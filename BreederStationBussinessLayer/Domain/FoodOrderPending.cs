@@ -1,4 +1,4 @@
-﻿using BreederStationDataLayer;
+﻿using BreederStationBussinessLayer.Domain.Enums;
 using System;
 using System.Text;
 

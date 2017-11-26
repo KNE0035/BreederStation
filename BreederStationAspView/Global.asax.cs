@@ -26,6 +26,8 @@ namespace BreederStationAspView
             ServiceRegister serviceRegister = ServiceRegister.getInstance();
             serviceRegister.Register(typeof(PersonService), new PersonServiceImpl());
             serviceRegister.Register(typeof(AnimalGroupService), new AnimalGroupServiceImpl());
+            serviceRegister.Register(typeof(AnimalService), new AnimalServiceImpl());
+            serviceRegister.Register(typeof(CageService), new CageServiceImpl());
         }
     }
 }

@@ -42,9 +42,21 @@ namespace BreederStationDataLayer.Orm.Dao
                                                    LEFT JOIN ROLE r ON p.ROLE_ID = r.ID
                                                    LEFT JOIN CAGE_CLEANER cc ON c.PERSON_ID = cc.CLEANER_ID
                                                    LEFT JOIN CAGE ca ON cc.CAGE_ID = ca.ID
-                                                   WHERE p.active = 1 AND p.login=@p_login";
+                                                   WHERE AND p.login=@p_login";
 
-        private static string SQL_UPDATE_PERSON = @"UPDATE Person SET first_name=@p_first_name, last_name=@p_last_name,
+        private static string SQL_SELECT_ID= @"SELECT p.id, p.password, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
+                                                   p.ACTIVE, p.LAST_ACTIVE_DATE, ag.id, ag.DESCRIPTION,
+                                                   r.id, r.TYPE, r.DESCRIPTION, c.CHEMICAL_QUALIFICATION, ca.ID, ca.LENGTH_M, ca.WIDTH_M
+                                                   FROM PERSON p
+                                                   LEFT JOIN BREEDER b ON p.ID = b.PERSON_ID
+                                                   LEFT JOIN CLEANER c ON p.ID = c.PERSON_ID
+                                                   LEFT JOIN ANIMAL_GROUP ag ON b.ANIMAL_GROUP_ID = ag.ID
+                                                   LEFT JOIN ROLE r ON p.ROLE_ID = r.ID
+                                                   LEFT JOIN CAGE_CLEANER cc ON c.PERSON_ID = cc.CLEANER_ID
+                                                   LEFT JOIN CAGE ca ON cc.CAGE_ID = ca.ID
+                                                   WHERE AND p.login=@p_id";
+
+        private static string SQL_UPDATE_PERSON = @"UPDATE Person SET password=@p_password, login=@p_login, first_name=@p_first_name, last_name=@p_last_name,
                                                     phone=@p_phone, birth_date=@p_birth_date WHERE id=@p_id";
 
         private static string SQL_UPDATE_BREEDER = "UPDATE Breeder SET animal_group_id=@p_animal_group_id WHERE person_id=@p_person_id";
@@ -66,6 +78,7 @@ namespace BreederStationDataLayer.Orm.Dao
             SqlCommand sqlCommand = (SqlCommand)command;
 
             sqlCommand.Parameters.Add("@p_login", SqlDbType.VarChar).Value = person.Login;
+            sqlCommand.Parameters.Add("@p_password", SqlDbType.VarChar).Value = person.Password;
             sqlCommand.Parameters.Add("@p_id", SqlDbType.Int).Value = person.Login;
             sqlCommand.Parameters.Add("@p_first_name", SqlDbType.VarChar).Value = person.FirstName;
             sqlCommand.Parameters.Add("@p_last_name", SqlDbType.VarChar).Value = person.LastName;
@@ -111,6 +124,12 @@ namespace BreederStationDataLayer.Orm.Dao
         {
             SqlCommand sqlCommand = (SqlCommand)command;
             sqlCommand.Parameters.Add("@p_login", SqlDbType.VarChar).Value = login;
+        }
+
+        protected override void PrepareSelectIdCommand(DbCommand command, int personId)
+        {
+            SqlCommand sqlCommand = (SqlCommand)command;
+            sqlCommand.Parameters.Add("@p_id", SqlDbType.VarChar).Value = personId;
         }
 
         protected override string GetInsertPersonSql()
@@ -203,6 +222,7 @@ namespace BreederStationDataLayer.Orm.Dao
                     breeder.AnimalGroup = new AnimalGroup();
                     breeder.AnimalGroup.Id = sqlReader.GetInt32(i);
                     breeder.AnimalGroup.Description = sqlReader.GetString(++i);
+                    person = breeder;
                 }
                 else
                 {
@@ -220,6 +240,7 @@ namespace BreederStationDataLayer.Orm.Dao
                 {
                     cleaner = new Cleaner(person);
                     cleaner.ChemicalQualification = sqlReader.GetBoolean(i);
+                    person = cleaner;
                 }
 
                 if (breeder != null)
@@ -277,6 +298,11 @@ namespace BreederStationDataLayer.Orm.Dao
                 sqlCommand.Parameters.Add("@c_whole_name", SqlDbType.VarChar).Value = criteria.WholeName;
             }
             sqlCommand.CommandText += " ORDER BY p.LOGIN";
+        }
+
+        protected override string GetSelectIdSql()
+        {
+            return SQL_SELECT_ID;
         }
     }
 }
