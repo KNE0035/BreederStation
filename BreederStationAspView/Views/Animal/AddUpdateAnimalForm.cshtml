@@ -1,0 +1,123 @@
+﻿@model BreederStationBussinessLayer.Domain.Animal
+
+@{
+    ViewBag.Title = "AddUpdateAnimalForm";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#submitButton").click(function (event) {
+
+            $("#Name").removeClass("inputInvalid");
+            $("#Race").removeClass("inputInvalid");
+
+            var valid = true;
+            var validationMessages = [];
+
+            var name = $("#Name").val();
+            var race = $("#Race").val();
+
+
+            if (isBlank(name)) {
+                valid = false;
+                $("#Name").addClass("inputInvalid");
+                validationMessages.push("Neplatné jméno");
+            }
+
+            if (isBlank(race)) {
+                valid = false;
+                $("#Race").addClass("inputInvalid");
+                validationMessages.push("Neplatné jméno");
+            }
+
+            validationMessages.forEach(function (messeage) {
+                toastr.error(messeage);
+            })
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+
+
+        function isBlank(str) {
+            return (!str || /^\s*$/.test(str));
+        }
+    });
+</script>
+
+
+<div id="AddAnimalForm">
+    @using (Html.BeginForm("AddUpdateAnimal", "Animal", FormMethod.Post))
+    {
+        <br>
+        <br>
+
+        if (ViewBag.edit)
+        {
+            <legend>Detail zvířete</legend>
+            <input id="Id" name="Id" type="hidden" value='@(Model.Id)' />
+        }
+        else
+        {
+            <legend>Vložení zvířete</legend>
+        }
+
+        <input id="edit" name="edit" type="hidden" value='@(ViewBag.edit ? "true" : "false")' />
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Jméno *")</div>
+            <div>@Html.TextBoxFor(m => Model.Name)</div>
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Rasa *")</div>
+            <div>@Html.TextBoxFor(m => Model.Race)</div>
+        </div>
+
+        <br style="clear: both">
+        <br style="clear: both">
+        <div class="col-sm-3">
+            <div>@Html.Label("Pohlaví *")</div>
+            @Html.DropDownListFor(m => Model.Sex,
+                EnumHelper.GetSelectList(typeof(BreederStationBussinessLayer.Domain.Enums.SexEnum)))
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Skupina *")</div>
+            @Html.DropDownListFor(m => Model.AnimalGroup.Id, new SelectList(ViewBag.possibleGroups, "Id", "Description"))
+        </div>
+
+        <br style="clear: both">
+        <br style="clear: both">
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Konzumuje: *")</div>
+            @Html.DropDownListFor(m => Model.Food.Id, new SelectList(ViewBag.possibleFoods, "Id", "Name", null))
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Klec čislo *")</div>
+            @Html.DropDownListFor(m => Model.Cage.Id, new SelectList(ViewBag.possibleCages, "Id", "Id", null))
+        </div>
+
+        <div class="col-sm-3">
+            <div>@Html.Label("Datum narození *")</div>
+            @Html.TextBoxFor(model => Model.BirthDate, "{0:yyyy-MM-dd}", new { @type = "date" })
+        </div>
+
+        <br style="clear: both">
+
+        <hr style="clear:both">
+
+        if (ViewBag.edit)
+        {
+            <div style="text-align: center"><input id="submitButton" style="margin: 0 auto" type="submit" value="Upravit zvíře" /></div>
+        }
+        else
+        {
+            <div style="text-align: center"><input id="submitButton" style="margin: 0 auto" type="submit" value="Vložit zvíře" /></div>
+        }
+    }
+</div>

@@ -28,6 +28,7 @@ namespace BreederStationAspView
             serviceRegister.Register(typeof(AnimalGroupService), new AnimalGroupServiceImpl());
             serviceRegister.Register(typeof(AnimalService), new AnimalServiceImpl());
             serviceRegister.Register(typeof(CageService), new CageServiceImpl());
+            serviceRegister.Register(typeof(FoodService), new FoodServiceImpl());
         }
     }
 }

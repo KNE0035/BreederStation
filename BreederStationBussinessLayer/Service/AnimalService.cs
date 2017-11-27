@@ -11,9 +11,9 @@ namespace BreederStationBussinessLayer.Service
 {
     public interface AnimalService
     {
-        bool addAnimal(Animal animal);
+        bool AddAnimal(Animal animal);
         IList<Animal> GetAnimals(AnimalCriteria criteria);
-        Person GetAnimalById(int id);
+        Animal GetAnimalById(int id);
         bool RemoveAnimal(int id);
         bool UpdateAnimal(Animal animal);
     }

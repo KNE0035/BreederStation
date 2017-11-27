@@ -15,14 +15,15 @@ namespace BreederStationBussinessLayer.Service.Impl
     {
         AnimalGateway animalGateway = RepositoryRegister.getInstance().Get<AnimalGateway>();
 
-        public bool addAnimal(Animal animal)
+        public bool AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            animal.Active = true;
+            return animalGateway.Insert(mapDomainToDtoObject(animal)) > 0;
         }
 
-        public Person GetAnimalById(int id)
+        public Animal GetAnimalById(int id)
         {
-            throw new NotImplementedException();
+            return mapDtoToDomainObject(animalGateway.Select(id));
         }
 
         public IList<Animal> GetAnimals(AnimalCriteria criteria)
@@ -58,7 +59,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 
         public bool UpdateAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            return animalGateway.Update(mapDomainToDtoObject(animal)) > 0;
         }
 
         private BreederStationDataLayer.Orm.Dto.Animal mapDomainToDtoObject(Animal animal)

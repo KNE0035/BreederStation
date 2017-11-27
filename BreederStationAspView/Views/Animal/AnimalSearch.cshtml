@@ -90,7 +90,7 @@
                         
                         @if (user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.ADMIN || user.Role == BreederStationBussinessLayer.Domain.Enums.RoleEnum.REDITEL)
                         {
-                            <td>@Html.ActionLink("Detail", "AddUpdateAnimal", "Animal", new { id = item.Id }, null)</td>
+                            <td>@Html.ActionLink("Detail", "AddUpdateAnimalForm", "Animal", new { animalId = @item.Id}, null)</td>
                             <td>@Html.ActionLink("Smazat", "Delete", "Animal", new { id = @item.Id }, null)</td>
                         }
                     </tr>

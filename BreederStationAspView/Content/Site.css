@@ -10,7 +10,7 @@
 }
 
 
-.col-sm-4 {
+.col-sm-4, .col-sm-2, .col-sm-3, .col-sm-5 {
     margin: 0px !important;
     padding: 0px !important;
 }

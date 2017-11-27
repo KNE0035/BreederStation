@@ -13,6 +13,7 @@ namespace BreederStationAspView.Controllers
         AnimalService animalService = ServiceRegister.getInstance().Get<AnimalService>();
         AnimalGroupService animalGroupService = ServiceRegister.getInstance().Get<AnimalGroupService>();
         CageService cageService = ServiceRegister.getInstance().Get<CageService>();
+        FoodService foodService = ServiceRegister.getInstance().Get<FoodService>();
 
         public ActionResult AnimalSearch()
         {
@@ -58,12 +59,51 @@ namespace BreederStationAspView.Controllers
 
         public ActionResult Delete(int id)
         {
-            if (!isUserAdminDirector())
+            if (!isUserAdminOrDirector())
             {
                 return RedirectToAction("Index", "Home");
             }
 
             animalService.RemoveAnimal(id);
+            return RedirectToAction("SearchAnimals", "Animal");
+        }
+
+        public ActionResult AddUpdateAnimalForm(int? animalId)
+        {
+            if (!isUserAdminOrDirector())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (TempData["Messages"] != null)
+            {
+                ViewBag.Messages = TempData["Messages"];
+            }
+
+            ViewBag.possibleGroups = animalGroupService.GetAllAnimalGroups(false);
+            ViewBag.possibleCages = cageService.GetAllCages();
+            ViewBag.possibleFoods = foodService.GetFoods(new FoodCriteria());
+
+            ViewBag.edit = animalId == null ? false : true;
+
+            return animalId == null ? View() : View(animalService.GetAnimalById((int)animalId));
+        }
+
+        public ActionResult AddUpdateAnimal(Animal animal, bool edit)
+        {
+            if (!isUserAdminOrDirector())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (edit)
+            {
+                animalService.UpdateAnimal(animal);
+            }
+            else
+            {
+                animalService.AddAnimal(animal);
+            }
             return RedirectToAction("SearchAnimals", "Animal");
         }
 
@@ -74,7 +114,7 @@ namespace BreederStationAspView.Controllers
             return (user != null && (user.Role == RoleEnum.ADMIN || user.Role == RoleEnum.REDITEL || user.Role == RoleEnum.CHOVATEL));
         }
 
-        private bool isUserAdminDirector()
+        private bool isUserAdminOrDirector()
         {
             User user = Session["user"] as User;
             return (user != null && (user.Role == RoleEnum.ADMIN || user.Role == RoleEnum.REDITEL));

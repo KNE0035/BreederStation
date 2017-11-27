@@ -42,7 +42,7 @@ namespace BreederStationDataLayer.Orm.Dao
                                                    LEFT JOIN ROLE r ON p.ROLE_ID = r.ID
                                                    LEFT JOIN CAGE_CLEANER cc ON c.PERSON_ID = cc.CLEANER_ID
                                                    LEFT JOIN CAGE ca ON cc.CAGE_ID = ca.ID
-                                                   WHERE AND p.login=@p_login";
+                                                   WHERE p.login=@p_login";
 
         private static string SQL_SELECT_ID= @"SELECT p.id, p.password, p.LOGIN, p.FIRST_NAME, p.LAST_NAME, p.phone, p.BIRTH_DATE,
                                                    p.ACTIVE, p.LAST_ACTIVE_DATE, ag.id, ag.DESCRIPTION,
@@ -54,7 +54,7 @@ namespace BreederStationDataLayer.Orm.Dao
                                                    LEFT JOIN ROLE r ON p.ROLE_ID = r.ID
                                                    LEFT JOIN CAGE_CLEANER cc ON c.PERSON_ID = cc.CLEANER_ID
                                                    LEFT JOIN CAGE ca ON cc.CAGE_ID = ca.ID
-                                                   WHERE AND p.login=@p_id";
+                                                   WHERE p.id=@p_id";
 
         private static string SQL_UPDATE_PERSON = @"UPDATE Person SET password=@p_password, login=@p_login, first_name=@p_first_name, last_name=@p_last_name,
                                                     phone=@p_phone, birth_date=@p_birth_date WHERE id=@p_id";
@@ -79,12 +79,11 @@ namespace BreederStationDataLayer.Orm.Dao
 
             sqlCommand.Parameters.Add("@p_login", SqlDbType.VarChar).Value = person.Login;
             sqlCommand.Parameters.Add("@p_password", SqlDbType.VarChar).Value = person.Password;
-            sqlCommand.Parameters.Add("@p_id", SqlDbType.Int).Value = person.Login;
+            sqlCommand.Parameters.Add("@p_id", SqlDbType.Int).Value = person.Id;
             sqlCommand.Parameters.Add("@p_first_name", SqlDbType.VarChar).Value = person.FirstName;
             sqlCommand.Parameters.Add("@p_last_name", SqlDbType.VarChar).Value = person.LastName;
             sqlCommand.Parameters.Add("@p_phone", SqlDbType.VarChar).Value = person.Phone;
             sqlCommand.Parameters.Add("@p_birth_date", SqlDbType.Date).Value = person.BirthDate;
-            sqlCommand.Parameters.Add("@p_password", SqlDbType.VarChar).Value = person.Password;
             sqlCommand.Parameters.Add("@p_role_id", SqlDbType.Int).Value = (int)person.Role.Type;
         }
 

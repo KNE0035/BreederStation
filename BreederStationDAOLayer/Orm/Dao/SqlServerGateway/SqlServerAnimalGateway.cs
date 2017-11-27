@@ -129,7 +129,7 @@ namespace BreederStationDataLayer.Orm.Dao
 
             if (criteria.CageId != null)
             {
-                sqlCommand.CommandText += " AND c.id=:@c_cage_id";
+                sqlCommand.CommandText += " AND c.id=@c_cage_id";
                 sqlCommand.Parameters.Add("@c_cage_id", SqlDbType.Int).Value = criteria.CageId;
             }
         }
