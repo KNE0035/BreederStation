@@ -18,17 +18,21 @@ namespace BreederStationDataLayer.Orm.Dto
 
         private static string SQL_INSERT_ANIMAL_EVENT = "INSERT INTO ANIMAL_EVENT (EVENT_ID, ANIMAL_ID) VALUES (@p_event_id, @p_animal_id)";
 
-        private static string SQL_SELECT = @"SELECT  e.ID, e.DESCRIPTION, e.START_DATE, e.END_DATE, b.person_id, b.ANIMAL_GROUP_ID, ae.ANIMAL_ID 
+        private static string SQL_SELECT = @"SELECT  e.ID, e.DESCRIPTION, e.START_DATE, e.END_DATE, b.person_id, p.login, b.ANIMAL_GROUP_ID, ae.ANIMAL_ID, a.name
                                              FROM EVENT e 
                                              LEFT JOIN ANIMAL_EVENT ae ON e.id = ae.EVENT_ID
+                                             LEFT JOIN ANIMAL a ON a.id = ae.ANIMAL_ID
                                              JOIN BREEDER b ON b.person_id = e.BREEDER_ID
+                                             JOIN PERSON p ON b.person_id = p.id
                                              ORDER BY e.ID";
 
-        private static string SQL_SELECT_ID = @"SELECT  e.ID, e.DESCRIPTION, e.START_DATE, e.END_DATE, b.person_id, b.ANIMAL_GROUP_ID, ae.ANIMAL_ID 
+        private static string SQL_SELECT_ID = @"SELECT  e.ID, e.DESCRIPTION, e.START_DATE, e.END_DATE, b.person_id, p.login, b.ANIMAL_GROUP_ID, ae.ANIMAL_ID, a.name
                                                    FROM EVENT e 
                                                    LEFT JOIN ANIMAL_EVENT ae ON e.id = ae.EVENT_ID
+                                                   LEFT JOIN ANIMAL a ON a.id = ae.ANIMAL_ID
                                                    JOIN BREEDER b ON b.person_id = e.BREEDER_ID
-                                                   WHERE e.ID=@p_id";
+                                                   JOIN PERSON p ON b.person_id = p.id
+                                                   WHERE e.ID=:p_id";
 
         private static string SQL_UPDATE = @"UPDATE EVENT SET DESCRIPTION=@p_description, START_DATE=@p_start_date, END_DATE=@p_end_date, BREEDER_ID=@p_breeder_id
                                              WHERE ID=@p_id";
@@ -66,7 +70,7 @@ namespace BreederStationDataLayer.Orm.Dto
             SqlDataReader sqlReader = (SqlDataReader)reader;
             bool goNext = false;
 
-            const int ANIMAL_ID_COLLUMN_POSSITION = 6;
+            const int ANIMAL_ID_COLLUMN_POSSITION = 7;
             const int EVENT_ID_COLLUMN_POSSITION = 0;
             IList<Event> animalEvents = new List<Event>();
 
@@ -85,20 +89,24 @@ namespace BreederStationDataLayer.Orm.Dto
 
                 animalEvent.Breeder = new Breeder();
                 animalEvent.Breeder.Id = sqlReader.GetInt32(++i);
+                animalEvent.Breeder.Login = sqlReader.GetString(++i);
                 animalEvent.Breeder.AnimalGroup = new AnimalGroup();
                 animalEvent.Breeder.AnimalGroup.Id = sqlReader.GetInt32(++i);
 
                 //adding all animal ids for every animalEvent
                 int lastEventId = animalEvent.Id;
 
-                animalEvent.AnimalIds = new List<int>();
+                animalEvent.animals = new List<Animal>();
 
                 if (!sqlReader.IsDBNull(ANIMAL_ID_COLLUMN_POSSITION))
                 {
                     do
                     {
-                        int animalId = sqlReader.GetInt32(ANIMAL_ID_COLLUMN_POSSITION);
-                        animalEvent.AnimalIds.Add(animalId);
+                        Animal animal = new Animal();
+                        animal.Id = sqlReader.GetInt32(ANIMAL_ID_COLLUMN_POSSITION);
+                        animal.Name = sqlReader.GetString(ANIMAL_ID_COLLUMN_POSSITION + 1);
+                        animalEvent.animals.Add(animal);
+
                         goNext = sqlReader.Read();
                     } while (goNext && lastEventId == sqlReader.GetInt32(EVENT_ID_COLLUMN_POSSITION));
                 } else

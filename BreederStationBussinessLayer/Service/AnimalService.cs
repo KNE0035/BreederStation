@@ -16,5 +16,8 @@ namespace BreederStationBussinessLayer.Service
         Animal GetAnimalById(int id);
         bool RemoveAnimal(int id);
         bool UpdateAnimal(Animal animal);
+
+        BreederStationDataLayer.Orm.Dto.Animal mapDomainToDtoObject(Animal animal);
+        Animal mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Animal dtoAnimal);
     }
 }

@@ -90,10 +90,10 @@ namespace BreederStationDataLayer.Orm.Dao
 
             int eventId = events[events.Count - 1].Id;
 
-            foreach(int animalId in animalEvent.AnimalIds)
+            foreach(Animal animal in animalEvent.animals)
             {
                 DbCommand intserAnimalEventcommand = db.CreateCommand(GetInsertAnimalEventSql());
-                PrepareAnimalEventCommand(intserAnimalEventcommand, eventId, animalId);
+                PrepareAnimalEventCommand(intserAnimalEventcommand, eventId, animal.Id);
                 ret += db.ExecuteNonQuery(intserAnimalEventcommand);
             }
             db.EndTransaction();

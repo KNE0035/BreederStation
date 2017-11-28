@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using BreederStationBussinessLayer.Domain;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDAOLayer.Database;
-using BreederStationDataLayer.Orm.SelectCriteria;
 using BreederStationBussinessLayer.Domain.Enums;
 using BreederStationBussinessLayer.ValidationObjects;
+using BreederStationBussinessLayer.SelectCriteria;
 
 namespace BreederStationBussinessLayer.Service.Impl
 {
     public class PersonServiceImpl : PersonService
     {
-        PersonGateway personGateway = RepositoryRegister.getInstance().Get<PersonGateway>();
+        private PersonGateway personGateway = RepositoryRegister.getInstance().Get<PersonGateway>();
 
         public Person Authorize(string login, string password)
         {
@@ -40,9 +40,17 @@ namespace BreederStationBussinessLayer.Service.Impl
             return person;
         }
 
-        public IList<Person> GetAllUsers()
+        public IList<Person> GetAllUsers(PersonCriteria criteria)
         {
-            IList<BreederStationDataLayer.Orm.Dto.Person> dtoPersons = personGateway.Select(new PersonCriteria());
+            IList<BreederStationDataLayer.Orm.Dto.Person> dtoPersons;
+            if (criteria.Role == null)
+            {
+                dtoPersons = personGateway.Select(new BreederStationDataLayer.Orm.SelectCriteria.PersonCriteria { Role = null, WholeName = criteria.WholeName });
+            }
+            else
+            {
+                dtoPersons = personGateway.Select(new BreederStationDataLayer.Orm.SelectCriteria.PersonCriteria { Role = (BreederStationDataLayer.RoleEnum)(criteria.Role.Value), WholeName = criteria.WholeName });
+            }
             IList<Person> persons = new List<Person>();
 
             foreach(BreederStationDataLayer.Orm.Dto.Person dtoPerson in dtoPersons)
@@ -65,7 +73,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 
         public PersonValidationObject RegisterUser(Person user)
         {
-            PersonCriteria criteria = new PersonCriteria() { Role = BreederStationDataLayer.RoleEnum.REDITEL };
+            BreederStationDataLayer.Orm.SelectCriteria.PersonCriteria criteria = new BreederStationDataLayer.Orm.SelectCriteria.PersonCriteria() { Role = BreederStationDataLayer.RoleEnum.REDITEL };
             PersonValidationObject validationObj = new PersonValidationObject();
             personGateway.Select(criteria);
 
@@ -126,7 +134,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return personGateway.Update(user) > 0;
         }
 
-        private BreederStationDataLayer.Orm.Dto.Person mapDomainToDtoObject(Person user)
+        public BreederStationDataLayer.Orm.Dto.Person mapDomainToDtoObject(Person user)
         {
             BreederStationDataLayer.Orm.Dto.Person dtoPerson = new BreederStationDataLayer.Orm.Dto.Person()
             {
@@ -160,7 +168,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return dtoPerson;
         }
 
-        private Person mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Person dtoPerson)
+        public Person mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Person dtoPerson)
         {
             Person person = new Person
             {

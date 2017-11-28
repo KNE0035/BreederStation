@@ -14,5 +14,7 @@ namespace BreederStationBussinessLayer.Service
         bool RemoveCage(int id);
         bool UpdateCage(Cage cage);
 
+        BreederStationDataLayer.Orm.Dto.Cage mapDomainToDtoObject(Cage cage);
+        Cage mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Cage dtoCage);
     }
 }

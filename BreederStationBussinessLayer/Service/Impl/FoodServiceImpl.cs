@@ -13,7 +13,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 
     public class FoodServiceImpl : FoodService
     {
-        FoodGateway foodGateway = RepositoryRegister.getInstance().Get<FoodGateway>();
+        private FoodGateway foodGateway = RepositoryRegister.getInstance().Get<FoodGateway>();
         public bool AddFood(Food food)
         {
             return foodGateway.Insert(mapDomainToDtoObject(food)) > 0;
@@ -43,7 +43,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return foodGateway.Update(mapDomainToDtoObject(food)) > 0;
         }
 
-        private BreederStationDataLayer.Orm.Dto.Food mapDomainToDtoObject(Food food)
+        public BreederStationDataLayer.Orm.Dto.Food mapDomainToDtoObject(Food food)
         {
             BreederStationDataLayer.Orm.Dto.Food dtoFood = new BreederStationDataLayer.Orm.Dto.Food
             {
@@ -59,7 +59,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return dtoFood;
         }
 
-        private Food mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Food dtoFood)
+        public Food mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Food dtoFood)
         {
             Food food = new Food
             {

@@ -13,7 +13,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 {
     public class AnimalServiceImpl : AnimalService
     {
-        AnimalGateway animalGateway = RepositoryRegister.getInstance().Get<AnimalGateway>();
+        private AnimalGateway animalGateway = RepositoryRegister.getInstance().Get<AnimalGateway>();
 
         public bool AddAnimal(Animal animal)
         {
@@ -62,7 +62,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return animalGateway.Update(mapDomainToDtoObject(animal)) > 0;
         }
 
-        private BreederStationDataLayer.Orm.Dto.Animal mapDomainToDtoObject(Animal animal)
+        public BreederStationDataLayer.Orm.Dto.Animal mapDomainToDtoObject(Animal animal)
         {
             BreederStationDataLayer.Orm.Dto.Animal dtoAnimalGroup = new BreederStationDataLayer.Orm.Dto.Animal
             {
@@ -80,7 +80,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return dtoAnimalGroup;
         }
 
-        private Animal mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Animal dtoAnimal)
+        public Animal mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Animal dtoAnimal)
         {
             Animal domainAnimalGroup = new Animal
             {

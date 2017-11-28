@@ -16,19 +16,7 @@ namespace BreederStationAspView
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            DataInitializer.initializeData();
-            registerServices();
-
-        }
-
-        private void registerServices()
-        {
-            ServiceRegister serviceRegister = ServiceRegister.getInstance();
-            serviceRegister.Register(typeof(PersonService), new PersonServiceImpl());
-            serviceRegister.Register(typeof(AnimalGroupService), new AnimalGroupServiceImpl());
-            serviceRegister.Register(typeof(AnimalService), new AnimalServiceImpl());
-            serviceRegister.Register(typeof(CageService), new CageServiceImpl());
-            serviceRegister.Register(typeof(FoodService), new FoodServiceImpl());
+            DataServiceInitializer.initializeDataAndServices();
         }
     }
 }

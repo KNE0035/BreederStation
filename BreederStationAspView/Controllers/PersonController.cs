@@ -1,5 +1,6 @@
 ﻿using BreederStationAspView.Models;
 using BreederStationBussinessLayer.Domain.Enums;
+using BreederStationBussinessLayer.SelectCriteria;
 using BreederStationBussinessLayer.Service;
 using BreederStationBussinessLayer.ValidationObjects;
 using System;
@@ -23,7 +24,7 @@ namespace BreederStationAspView.Controllers
             }
 
             IList<Person> aspModelPersons = new List<Person>();
-            foreach(BreederStationBussinessLayer.Domain.Person domainPerson in personService.GetAllUsers())
+            foreach (BreederStationBussinessLayer.Domain.Person domainPerson in personService.GetAllUsers(new PersonCriteria()))
             {
                 aspModelPersons.Add(mapDomainToAspModelObject(domainPerson));
             }

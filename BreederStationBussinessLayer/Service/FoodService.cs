@@ -14,6 +14,7 @@ namespace BreederStationBussinessLayer.Service
         IList<Food> GetFoods(FoodCriteria criteria);
         bool RemoveFood(int id);
         bool UpdateFood(Food food);
-
+        BreederStationDataLayer.Orm.Dto.Food mapDomainToDtoObject(Food food);
+        Food mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Food dtoFood);
     }
 }

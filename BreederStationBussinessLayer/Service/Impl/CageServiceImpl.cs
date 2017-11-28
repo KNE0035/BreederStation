@@ -13,7 +13,7 @@ namespace BreederStationBussinessLayer.Service.Impl
     public class CageServiceImpl : CageService
     {
 
-        CageGateway cageGateway = RepositoryRegister.getInstance().Get<CageGateway>();
+        private CageGateway cageGateway = RepositoryRegister.getInstance().Get<CageGateway>();
         public bool AddCage(Cage cage)
         {
             return cageGateway.Insert(mapDomainToDtoObject(cage)) > 0;
@@ -43,7 +43,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return cageGateway.Update(mapDomainToDtoObject(cage)) > 0;
         }
 
-        private BreederStationDataLayer.Orm.Dto.Cage mapDomainToDtoObject(Cage cage)
+        public BreederStationDataLayer.Orm.Dto.Cage mapDomainToDtoObject(Cage cage)
         {
             BreederStationDataLayer.Orm.Dto.Cage dtoCage = new BreederStationDataLayer.Orm.Dto.Cage
             {
@@ -56,7 +56,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             return dtoCage;
         }
 
-        private Cage mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Cage dtoCage)
+        public Cage mapDtoToDomainObject(BreederStationDataLayer.Orm.Dto.Cage dtoCage)
         {
             Cage cage = new Cage
             {

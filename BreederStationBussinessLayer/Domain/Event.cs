@@ -11,43 +11,23 @@ namespace BreederStationBussinessLayer.Domain
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public Breeder Breeder { get; set; }
-        public IList<int> AnimalIds { get; set; }
+        public IList<Animal> animals { get; set; }
 
-        public int BreederId
+        public string BreederLogin
         {
-            get { return Breeder.Id; }
+            get { return Breeder.Login; }
         }
 
-        public string AnimalIdsString {
+        public string AnimalsNamesString {
             get {
-                return string.Join<int>(", ", AnimalIds);
-            }
-        }
+                IList<string> animalNames = new List<string>();
 
-            
-        public override string ToString()
-        {
-            StringBuilder ret = new StringBuilder();
-            ret.Append("id udalosti: " + Id + Environment.NewLine);
-            ret.Append("popis udalosti: " + Description + Environment.NewLine);
-            ret.Append("Datum zacatku udalosti: " + StartDate + Environment.NewLine);
-            if (EndDate != null)
-            {
-                ret.Append("Datum konce udalosti:  " + EndDate + Environment.NewLine);
-            } else
-            {
-                ret.Append("Datum konce udalosti:  Zatim nebylo stanoveno" + Environment.NewLine);
+                foreach(Animal animal in animals)
+                {
+                    animalNames.Add(animal.Name);
+                }
+                return string.Join<string>(", ", animalNames);
             }
-            ret.Append("Id chovatele ridici udalost: " + Breeder.Id + Environment.NewLine);
-
-            ret.Append("Id zucastnenych zvirat: ");
-            foreach(int id in AnimalIds)
-            {
-                ret.Append(id + ", ");
-            }
-            ret.Remove(ret.Length - 2, 2);
-            ret.Append(Environment.NewLine);
-            return ret.ToString();
         }
     }
 }
