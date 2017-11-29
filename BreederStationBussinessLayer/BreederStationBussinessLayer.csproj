@@ -62,10 +62,12 @@
     <Compile Include="SelectCriteria\AnimalCriteria.cs" />
     <Compile Include="SelectCriteria\FoodCriteria.cs" />
     <Compile Include="SelectCriteria\PersonCriteria.cs" />
+    <Compile Include="Service\AddressService.cs" />
     <Compile Include="Service\EventService.cs" />
     <Compile Include="Service\FoodService.cs" />
     <Compile Include="Service\CageService.cs" />
     <Compile Include="Service\AnimalGroupService.cs" />
+    <Compile Include="Service\Impl\AddressServiceImpl.cs" />
     <Compile Include="Service\Impl\AnimalGroupServiceImpl.cs" />
     <Compile Include="Service\AnimalService.cs" />
     <Compile Include="Service\Impl\AnimalServiceImpl.cs" />

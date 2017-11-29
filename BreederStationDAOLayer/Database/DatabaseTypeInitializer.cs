@@ -2,6 +2,8 @@
 using BreederStationDataLayer.Database;
 using BreederStationDataLayer.Orm.Dao;
 using BreederStationDataLayer.Orm.Dto;
+using BreederStationDataLayer.Xml;
+using BreederStationDataLayer.Xml.Impl;
 using Oracle.ManagedDataAccess.Client;
 using System.Data.SqlClient;
 
@@ -40,6 +42,7 @@ namespace BreederStationDAOLayer.Database
                 register.Register(typeof(FoodGateway), new SqlServerFoodGateway(DatabaseService.getInstance()));
                 register.Register(typeof(RoleGateway), new SqlServerRoleGateway(DatabaseService.getInstance()));
             }
+            register.Register(typeof(AddressXmlGateway), new AddressXmlGatewayImpl());
         }
     }
 }

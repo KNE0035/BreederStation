@@ -23,6 +23,7 @@ namespace BreederStationBussinessLayer
             serviceRegister.Register(typeof(CageService), new CageServiceImpl());
             serviceRegister.Register(typeof(FoodService), new FoodServiceImpl());
             serviceRegister.Register(typeof(EventService), new EventServiceImpl());
+            serviceRegister.Register(typeof(AddressService), new AddressServiceImpl());
         }
 
     }

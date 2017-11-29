@@ -36,6 +36,9 @@
             this.AnimalEventMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.WorkWithAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -45,7 +48,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.systemToolStripMenuItem,
             this.EmployeeMenuItem,
-            this.AnimalEventMenuItem});
+            this.AnimalEventMenuItem,
+            this.WorkWithAddressToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(841, 24);
@@ -64,14 +68,14 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // logoutToolStripMenuItem
             // 
             this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.logoutToolStripMenuItem.Text = "Logout";
             this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
@@ -105,6 +109,29 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(74, 17);
             this.toolStripStatusLabel1.Text = "VIS PROJECT";
             // 
+            // WorkWithAddressToolStripMenuItem
+            // 
+            this.WorkWithAddressToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportAddressToolStripMenuItem,
+            this.importAddressToolStripMenuItem});
+            this.WorkWithAddressToolStripMenuItem.Name = "WorkWithAddressToolStripMenuItem";
+            this.WorkWithAddressToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
+            this.WorkWithAddressToolStripMenuItem.Text = "Práce s adresama";
+            // 
+            // exportAddressToolStripMenuItem
+            // 
+            this.exportAddressToolStripMenuItem.Name = "exportAddressToolStripMenuItem";
+            this.exportAddressToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAddressToolStripMenuItem.Text = "Export adres";
+            this.exportAddressToolStripMenuItem.Click += new System.EventHandler(this.exportAdresToolStripMenuItem_Click);
+            // 
+            // importAddressToolStripMenuItem
+            // 
+            this.importAddressToolStripMenuItem.Name = "importAddressToolStripMenuItem";
+            this.importAddressToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importAddressToolStripMenuItem.Text = "Import adres";
+            this.importAddressToolStripMenuItem.Click += new System.EventHandler(this.importAdresToolStripMenuItem_Click);
+            // 
             // BreederStationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,6 +164,9 @@
         private System.Windows.Forms.ToolStripMenuItem EmployeeMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AnimalEventMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem WorkWithAddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importAddressToolStripMenuItem;
     }
 }
 
