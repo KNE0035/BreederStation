@@ -1,6 +1,7 @@
 ﻿using BreederStationBussinessLayer.Domain.Enums;
 using BreederStationBussinessLayer.Service;
 using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace BreederStationDesktopView
@@ -81,7 +82,7 @@ namespace BreederStationDesktopView
                 MessageBox.Show("Import proběhl bez problémů");
             } catch (Exception exp)
             {
-                MessageBox.Show("Chyba:" + exp.StackTrace);
+                MessageBox.Show("Některé z dat, které se snažíte importovat již v databázi existují, nebo nastala chyba při přijení k databázi.");
             }
             
         }

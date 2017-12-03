@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAddress xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Address>
+    <Id>9</Id>
+    <City>OstravaTextXml</City>
+    <Street>Maluchy 5</Street>
+    <Zipcode>Xml10</Zipcode>
+  </Address>
+  <Address>
+    <Id>10</Id>
+    <City>Ostrava</City>
+    <Street>Davidova 22</Street>
+    <Zipcode>Xml20</Zipcode>
+  </Address>
+  <Address>
+    <Id>11</Id>
+    <City>Brno</City>
+    <Street>Krestova 21OstravaTextXml</Street>
+    <Zipcode>Xml30</Zipcode>
+  </Address>
+  <Address>
+    <Id>12</Id>
+    <City>Ostrava</City>
+    <Street>Kotase 18OstravaTextXml</Street>
+    <Zipcode>Xml40</Zipcode>
+  </Address>
+  <Address>
+    <Id>13</Id>
+    <City>Ostrava</City>
+    <Street>Tlapakova 7OstravaTextXml</Street>
+    <Zipcode>Xml50</Zipcode>
+  </Address>
+</ArrayOfAddress>
