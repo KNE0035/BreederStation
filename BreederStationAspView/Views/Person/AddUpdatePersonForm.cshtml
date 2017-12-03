@@ -51,19 +51,19 @@
             var checkedRoleInputs = $("input[name='Role.Type']:checked");
 
 
-            if (isBlank(login)) {
+            if (isBlank(login) || login.length > 20) {
                 valid = false;
                 $("#Login").addClass("inputInvalid");
                 validationMessages.push("Neplatný login");
             }
 
-            if (isBlank(name)) {
+            if (isBlank(name) || name.length > 30) {
                 valid = false;
                 $("#FirstName").addClass("inputInvalid");
                 validationMessages.push("Neplatné jméno");
             }
 
-            if (isBlank(surname)) {
+            if (isBlank(surname) || surname.length > 30) {
                 valid = false;
                 $("#LastName").addClass("inputInvalid");
                 validationMessages.push("Neplatné přijmení");

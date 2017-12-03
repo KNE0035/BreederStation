@@ -19,13 +19,13 @@
             var race = $("#Race").val();
 
 
-            if (isBlank(name)) {
+            if (isBlank(name) || name.length > 30) {
                 valid = false;
                 $("#Name").addClass("inputInvalid");
                 validationMessages.push("Neplatné jméno");
             }
 
-            if (isBlank(race)) {
+            if (isBlank(race) || race.length > 30) {
                 valid = false;
                 $("#Race").addClass("inputInvalid");
                 validationMessages.push("Neplatné jméno");
