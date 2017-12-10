@@ -14,7 +14,7 @@ namespace BreederStationBussinessLayer
     {
         public static void initializeDataAndServices()
         {
-            DatabaseTypeEnum databaseType = DatabaseTypeEnum.ORACLE_DATABASE;
+            DatabaseTypeEnum databaseType = DatabaseTypeEnum.SQL_SERVER_DATABASE;
             DatabaseTypeInitializer.InitializeDatabaseType(databaseType);
             ServiceRegister serviceRegister = ServiceRegister.getInstance();
             serviceRegister.Register(typeof(PersonService), new PersonServiceImpl());
