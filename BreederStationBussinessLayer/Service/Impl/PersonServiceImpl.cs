@@ -25,7 +25,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 
             BreederStationDataLayer.Orm.Dto.Person dtoPerson = personGateway.Select(login);
 
-            if (dtoPerson == null || !password.Equals(dtoPerson.Password))
+            if (dtoPerson == null || !MatchHash(dtoPerson.Password, password))
             {
                 return null;
             }
@@ -84,7 +84,7 @@ namespace BreederStationBussinessLayer.Service.Impl
 
             user.Active = true;
             user.LastActiveDate = null;
-            user.Password = "changeit";
+            user.Password = CreateHash("changeit");
 
             if (personGateway.Select(user.Login) != null)
             {
@@ -130,7 +130,7 @@ namespace BreederStationBussinessLayer.Service.Impl
             BreederStationDataLayer.Orm.Dto.Person user = personGateway.Select(login);
             PersonValidationObject validationObj = new PersonValidationObject();
 
-            user.Password = password;
+            user.Password = CreateHash(password);
             return personGateway.Update(user) > 0;
         }
 
@@ -206,6 +206,23 @@ namespace BreederStationBussinessLayer.Service.Impl
                 person = breeder;
             }
             return person;
+        }
+        public static string CreateHash(string unHashed)
+        {
+            System.Security.Cryptography.MD5CryptoServiceProvider x = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(unHashed);
+            data = x.ComputeHash(data);
+            return System.Text.Encoding.ASCII.GetString(data);
+        }
+
+
+        public static bool MatchHash(string HashData, string HashUser)
+        {
+            HashUser = CreateHash(HashUser);
+            if (HashUser == HashData)
+                return true;
+            else
+                return false;
         }
     }
 }
