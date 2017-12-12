@@ -16,7 +16,7 @@ namespace BreederStationDAOLayer.Database
             RepositoryRegister register = RepositoryRegister.getInstance();
             if (databaseType == DatabaseTypeEnum.ORACLE_DATABASE)
             {
-                DatabaseService.init(new OracleConnection());
+                DatabaseService.Init(new OracleConnection());
                 register.Register(typeof(PersonGateway), new OraclePersonGateway(DatabaseService.getInstance()));
                 register.Register(typeof(AddressGateway), new OracleAddressGateway(DatabaseService.getInstance()));
                 register.Register(typeof(CageGateway), new OracleCageGateway(DatabaseService.getInstance()));
@@ -30,7 +30,7 @@ namespace BreederStationDAOLayer.Database
 
             } else if(databaseType == DatabaseTypeEnum.SQL_SERVER_DATABASE)
             {
-                DatabaseService.init(new SqlConnection());
+                DatabaseService.Init(new SqlConnection());
                 register.Register(typeof(PersonGateway), new SqlServerPersonGateway(DatabaseService.getInstance()));
                 register.Register(typeof(AddressGateway), new SqlServerAddressGateway(DatabaseService.getInstance()));
                 register.Register(typeof(CageGateway), new SqlServerCageGateway(DatabaseService.getInstance()));

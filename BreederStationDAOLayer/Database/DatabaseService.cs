@@ -107,7 +107,7 @@ namespace BreederStationDataLayer.Database
             return sqlReader;
         }
 
-        public static void init(DbConnection connection)
+        public static void Init(DbConnection connection)
         {
             DatabaseService.connection = connection;
             DatabaseService.connectionString = DatabaseResourceCreator.createConnectionString(connection);
