@@ -14,8 +14,6 @@ namespace BreederStationDataLayer.Database
 
         private static DbConnection connection;
         private DbTransaction SqlTransaction { get; set; }
-        public string Language { get; set; }
-
         private static IDatabaseService instance;
         private DatabaseService()
         {
@@ -23,7 +21,6 @@ namespace BreederStationDataLayer.Database
             {
                 throw new Exception("Before you need to call init method");
             }
-            Language = "en";
         }
 
         public static IDatabaseService getInstance() {
