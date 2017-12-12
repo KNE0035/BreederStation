@@ -23,7 +23,7 @@ namespace BreederStationDataLayer.Database
             }
         }
 
-        public static IDatabaseService getInstance() {
+        public static IDatabaseService GetInstance() {
             if(DatabaseService.instance == null)
             {
                 DatabaseService.instance = new DatabaseService();
