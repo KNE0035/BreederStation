@@ -15,36 +15,5 @@ namespace BreederStationDataLayer.Orm.Dto
         public AnimalGroup AnimalGroup { get; set; }
         public Cage Cage { get; set; }
         public Food Food { get; set; }
-
-        public override string ToString()
-        {
-            StringBuilder ret = new StringBuilder();
-            ret.Append("id zvirete: " + Id + Environment.NewLine);
-            ret.Append("jmeno: " + Name + Environment.NewLine);
-            ret.Append("rasa: " + Race + Environment.NewLine);
-            ret.Append("pohlavi: " + Sex.ToString() + Environment.NewLine);
-            ret.Append("datum narozeni: " + BirthDate + Environment.NewLine);
-            ret.Append("aktivni:  " + Active + Environment.NewLine);
-            if (LastActiveDate != null)
-            {
-                ret.Append("Posledni aktivita:  " + LastActiveDate + Environment.NewLine);
-            }
-
-            if (AnimalGroup != null)
-            {
-                ret.Append(AnimalGroup.ToString());
-            }
-
-            if (Cage != null)
-            {
-                ret.Append(Cage.ToString());
-            }
-
-            if (Food != null)
-            {
-                ret.Append(Food.ToString());
-            }
-            return ret.ToString();
-        }
     }
 }

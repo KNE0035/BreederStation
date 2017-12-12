@@ -10,32 +10,5 @@ namespace BreederStationDataLayer.Orm.Dto
         public string Phone { get; set; }
         public string Email { get; set; }
         public Address Address { get; set; }
-
-        public override string ToString()
-        {
-            StringBuilder ret = new StringBuilder();
-
-            ret.Append("Id_firmy: " + Id + Environment.NewLine);
-
-            if (Trademark != null)
-            {
-                ret.Append("Znacka: " + Trademark + Environment.NewLine);
-            }
-
-            if (Phone != null) {
-                ret.Append("telefon firmy: " + Phone + Environment.NewLine);
-            }
-
-            if(Email != null)
-            {
-                ret.Append("Email firmy: " + Email + Environment.NewLine);
-            }
-
-            if (Address != null)
-            {
-                ret.Append(Address.ToString());
-            }
-            return ret.ToString();
-        }
     }
 }
