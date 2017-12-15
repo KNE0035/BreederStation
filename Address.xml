@@ -2,62 +2,8 @@
 <ArrayOfAddress xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Address>
     <Id>1</Id>
-    <City>Ostrava</City>
-    <Street>Maluchy 5</Street>
-    <Zipcode>72000</Zipcode>
-  </Address>
-  <Address>
-    <Id>2</Id>
-    <City>Ostrava</City>
-    <Street>Davidova 22</Street>
-    <Zipcode>52011</Zipcode>
-  </Address>
-  <Address>
-    <Id>3</Id>
-    <City>Brno</City>
-    <Street>Krestova 21</Street>
-    <Zipcode>45670</Zipcode>
-  </Address>
-  <Address>
-    <Id>4</Id>
-    <City>Ostrava</City>
-    <Street>Kotase 18</Street>
-    <Zipcode>12465</Zipcode>
-  </Address>
-  <Address>
-    <Id>5</Id>
-    <City>Ostrava</City>
-    <Street>Tlapakova 7</Street>
-    <Zipcode>12546</Zipcode>
-  </Address>
-  <Address>
-    <Id>6</Id>
-    <City>OstravaTextXml</City>
-    <Street>Maluchy 5</Street>
-    <Zipcode>Xml10</Zipcode>
-  </Address>
-  <Address>
-    <Id>7</Id>
-    <City>Ostrava</City>
-    <Street>Davidova 22</Street>
-    <Zipcode>Xml20</Zipcode>
-  </Address>
-  <Address>
-    <Id>8</Id>
-    <City>Brno</City>
-    <Street>Krestova 21OstravaTextXml</Street>
-    <Zipcode>Xml30</Zipcode>
-  </Address>
-  <Address>
-    <Id>9</Id>
-    <City>Ostrava</City>
-    <Street>Kotase 18OstravaTextXml</Street>
-    <Zipcode>Xml40</Zipcode>
-  </Address>
-  <Address>
-    <Id>10</Id>
-    <City>Ostrava</City>
-    <Street>Tlapakova 7OstravaTextXml</Street>
-    <Zipcode>Xml50</Zipcode>
+    <City>Ostravaxml</City>
+    <Street>Maluchy 5xml</Street>
+    <Zipcode>72xml</Zipcode>
   </Address>
 </ArrayOfAddress>
